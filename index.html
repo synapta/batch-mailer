@@ -12,10 +12,11 @@
     </head>
     
     <body>
+        <h1>Invio PEC multiple</h1>
 
         <div class="item-wrapper one">
             <div class="item">
-                <form>
+                <form class="needs-validation" novalidate>
                     <div class="item-inner">
                         <div class="item-content">
                             <div class="upload" id="docx_upload">
@@ -34,6 +35,9 @@
                         </div>
                         <!--item-content-->
                     </div>
+                    <div class="valid-tooltip">
+                        Looks good!
+                      </div>
                     <div class="item-inner">
                         <div class="item-content">
                             <div class="upload" id="xlsx_upload">
@@ -58,9 +62,8 @@
             </div>
             <!--item-->
         </div>
-
-        <script src="static/js/bootstrap.bundle.min.js"></script>
         <script src="static/js/jquery.min.js"></script>
+        <script src="static/js/bootstrap.bundle.min.js"></script>
         <script src="static/js/script.js"></script>
     
     </body>

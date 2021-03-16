@@ -16,7 +16,7 @@ Consistency check in the files
 
 def validity(csv, doc):
     # 'oggetto' and 'pec' are required
-    if not valid_csv:
+    if not valid_csv(csv):
         return 'Controlla che i campi "oggetto" e "pec" siano presenti nel file excel'
 
     headers = csv['headers']
@@ -77,8 +77,6 @@ def not_valid_attachments(attachments):
 
     for k,v in attachments.items():
         urls = [u for u in v if 'http://' in u or 'https://' in u]
-
-        print(urls)
 
         for url in urls:
             url_text = urlparse(url)

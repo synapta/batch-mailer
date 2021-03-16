@@ -37,7 +37,7 @@ function setListeners(container, fd) {
             // msgHolder.html("Click / Drop file to select.");
         },
         'drop': function (e) {
-            e.preventDefault();
+            e.preventDefault()
             if (e.target.id == 'docx_upload') {
                 handleDocXUpload(e.originalEvent.dataTransfer.files, fd);
             } else if (e.target.id == 'xlsx_upload') {
@@ -53,20 +53,18 @@ function setListeners(container, fd) {
 function handleDocXUpload(f, fd) {
     f = f[0]
     files['docx'] = f
+    fd.delete('docx_file')
     fd.append('docx_file', files['docx']);
 }
 
 function handleXlsXUpload(f, fd) {
     f = f[0]
     files['xlsx'] = f
+    fd.delete('xlsx_file')
     fd.append('xlsx_file', files['xlsx']);
 }
 
 function loadData(fd) {
-    console.log('Load data function')
-    for (var value of fd.values()) {
-        console.log(value);
-    }
     // Load files
     $.ajax({
         url: '/',
