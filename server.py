@@ -14,9 +14,8 @@ def home(request: Request):
 
 # Check
 @app.post('/')
-async def load_files(request: Request, file: UploadFile = File(...)):
-    #csv_str = await file.read()
-    #result = process_request(csv_str)
+async def load_files(request: Request, docx_file: UploadFile = File(...)):
+    docx = await docx_file.read()
     return templates.TemplateResponse('index.html', context={'request': request})
 
 # Preview
