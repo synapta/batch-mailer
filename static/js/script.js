@@ -101,21 +101,19 @@ function localSideCheck(fd) {
     exist_xlsx = false
     is_docx = false
     is_xlsx = false
-    i = 0
-    for (var value of fd.values()) {
-        if (i == 0) {
-            exist_docx = true
-            if (value.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                is_docx = true
-            }
+
+    if (!$.isEmptyObject(files['docx'])) {
+        exist_docx = true
+        if (files['docx'].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            is_docx = true
         }
-        if (i==1) {
-            exist_xlsx = true
-            if (value.type == 'text/csv') { //TODO: aggiungi la gestione dell'xslx
-                is_xlsx = true
-            }
+    }
+
+    if (!$.isEmptyObject(files['xlsx'])) {
+        exist_xlsx = true
+        if (files['xlsx'].type == 'text/csv') { //TODO: aggiungi la gestione dell'xslx
+            is_xlsx = true
         }
-        i++
     }
 
     if (!exist_docx) {
