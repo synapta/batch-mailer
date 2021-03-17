@@ -12,11 +12,26 @@
     </head>
 
     <body>
-        PREVIEW
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-1">
+                    First column
+                </div>
+                <div class="col-10">
+                    <h1> {{ subject }} </h1>
+                    <h4> Destinatario: {{ recipient }}</h4>
+                    <div style="white-space: pre-line">
+                        {{ body }}
+                    </div>
+                </div>
+                <div class="col-1">
+                    Third column
+                </div>
+            </div>
+        </div>
         <script src="static/js/jquery.min.js"></script>
         <script src="static/js/bootstrap.bundle.min.js"></script>
         <script src="static/js/script.js"></script>
-
     </body>
 
 </html>

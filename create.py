@@ -56,4 +56,4 @@ def get_text(doc):
     for para in doc.paragraphs:
         fullText.append(para.text)
     
-    return '\n'.join(fullText)
+    return '\n\n'.join(fullText)

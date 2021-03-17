@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 
 import check
 import read
+import create
 
 # Prepare fastAPI
 app = FastAPI()
@@ -18,24 +19,45 @@ def home(request: Request):
 # Check
 @app.post('/')
 async def load_files(request: Request, docx_file: UploadFile = File(...), xlsx_file: UploadFile = File(...)):
-    docx = await docx_file.read()
-    xlsx = await xlsx_file.read()
+    docx_byte = await docx_file.read()
+    xlsx_byte = await xlsx_file.read()
 
     # Process and manage the results
-    res = process_inputs(xlsx, docx)
+    res, docx, xlsx = process_inputs(xlsx_byte, docx_byte)
 
     if res == 'OK':
-        return templates.TemplateResponse('preview.html', context={'request': request})
+        mails = create.mails(xlsx, docx)
+        subject = mails[0]['subject']
+        print(subject)
+        recipient = mails[0]['recipient']
+        body = mails[0]['body']
+        context = {
+            'request': request,
+            'subject': subject,
+            'recipient' : recipient,
+            'body': body
+        }
+        return templates.TemplateResponse('preview.html', context=context)
 
     if res['field'] == 'xlsx':
         result_docx = ''
         result_xlsx = res['text']
-        return templates.TemplateResponse('index.html', context={'request': request, 'result_docx': result_docx, 'result_xlsx': result_xlsx})
+        context = {'request': request,
+                   'result_docx': result_docx,
+                   'result_xlsx': result_xlsx
+                  }
+        
+        return templates.TemplateResponse('index.html', context=context)
     
     if res['field'] == 'both':
         result_docx = res['text_docx']
         result_xlsx = res['text_xlsx']
-        return templates.TemplateResponse('index.html', context={'request': request, 'result_docx': result_docx, 'result_xlsx': result_xlsx})    
+        context = {'request': request,
+                   'result_docx': result_docx,
+                   'result_xlsx': result_xlsx
+                  }
+        
+        return templates.TemplateResponse('index.html', context=context)    
 
 
 # TODO SEND
@@ -46,4 +68,4 @@ def process_inputs(xlsx_byte, docx_byte):
     docx = read.read_docx(docx_byte)
     res = check.validity(xlsx, docx)
 
-    return res
+    return res, docx, xlsx
