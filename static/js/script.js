@@ -9,8 +9,8 @@ $(document).ready(function() {
     var form = $('form')
     
     // Set drag and drop listeners
-    setListeners(docx_container, fd)
-    setListeners(xlsx_container, fd)
+    setDragListeners(docx_container, fd)
+    setDragListeners(xlsx_container, fd)
 
     // Set upload listeners to input types
     $('#docx_input').on('change', function () {
@@ -29,7 +29,7 @@ $(document).ready(function() {
 });
 
 
-function setListeners(container, fd) {
+function setDragListeners(container, fd) {
     container.on({
         'dragenter': function (e) {
             e.preventDefault();
@@ -133,7 +133,7 @@ function localSideCheck(fd) {
         xlsx_input.addClass('is-invalid')
     } else {
         if (!is_xlsx) {
-            xlsx_error.append('Attenzione: sembra che il file caricato non sia nel formato .docx!')
+            xlsx_error.append('Attenzione: sembra che il file caricato non sia nel formato .xlsx o .csv!')
             xlsx_input.addClass('is-invalid')
         }
     }
@@ -142,25 +142,6 @@ function localSideCheck(fd) {
         local_check = true
 
     return local_check
-
-
-
-
-
-
-
-
-
-    /*
-    console.log(fd)
-    console.log(fd.values()['docx'])
-    console.log(fd.values()['xlsx'])
-    docx_input.addClass('is-invalid')
-    var docx_input = $('docx_input')
-    docx_input.removeClass('is-valid')
-    docx_input.addClass('is-invalid')
-    form.addClass('was-validated')
-    */
 }
 
 
@@ -171,8 +152,15 @@ function serverSideCheck(fd) {
         data: fd,
         processData: false,
         contentType: false,
-        success: function() {
-            //TODO
+        success: function(data) {
+            $("html").empty();
+            $("html").hide(); 
+            $("html").append(data);
+            var docx_input = $('input#docx_input');
+            var xlsx_input = $('input#xlsx_input');
+            docx_input.addClass('is-invalid');
+            xlsx_input.addClass('is-invalid');
+            $("html").show(); 
         }
     });
 }

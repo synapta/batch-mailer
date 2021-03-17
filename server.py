@@ -20,14 +20,26 @@ def home(request: Request):
 async def load_files(request: Request, docx_file: UploadFile = File(...), xlsx_file: UploadFile = File(...)):
     docx = await docx_file.read()
     xlsx = await xlsx_file.read()
+
+    # Process and manage the results
     res = process_inputs(xlsx, docx)
-    return templates.TemplateResponse('index.html', context={'request': request})
 
-# Preview
+    if res == 'OK':
+        return templates.TemplateResponse('preview.html', context={'request': request})
 
-# Send
+    if res['field'] == 'xlsx':
+        result_docx = ''
+        result_xlsx = res['text']
+        return templates.TemplateResponse('index.html', context={'request': request, 'result_docx': result_docx, 'result_xlsx': result_xlsx})
+    
+    if res['field'] == 'both':
+        result_docx = res['text_docx']
+        result_xlsx = res['text_xlsx']
+        return templates.TemplateResponse('index.html', context={'request': request, 'result_docx': result_docx, 'result_xlsx': result_xlsx})    
 
-# Log page
+
+# TODO SEND
+
 
 def process_inputs(xlsx_byte, docx_byte):
     xlsx = read.read_csv(xlsx_byte)
