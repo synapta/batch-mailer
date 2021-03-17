@@ -12,16 +12,68 @@
     </head>
     
     <body>
-        <h1>Invio PEC multiple</h1>
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-1">
+                    First column
+                </div>
+                <div class="col-10">
+                    Second column
+                    <form novalidate> <!--novalidate to remove the default browser behaviour-->
+                        <div class="upload" id="docx_upload">
+                            <label style="cursor: pointer;" for="docx_input">
+                                <img src="static/imgs/cloud-upload-icon.png" alt="" class="uploaded-image">
+                                <div class="dplay-tbl">
+                                    <div class="dplay-tbl-cell"> <i class="fa fa-cloud-upload"></i>
+                                        <h5><b>Scegli il template della mail in formato .docx</b></h5>
+                                        <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
+                                    </div>
+                                </div>
+                                <input type="file" name="docx_name" id="docx_input" class="form-control" value="" accept=".docx">
+                                <div id='docx_feedback' class="invalid-feedback">
+                                    Error message
+                                </div> 
+                            </label>
+                        </div> <!--end of the docx upload-->
+                        <div class="upload" id="xlsx_upload">
+                            <label style="cursor: pointer;" for="xlsx_input">
+                                <img src="static/imgs/cloud-upload-icon.png" alt="" class="uploaded-image">
+                                <div class="dplay-tbl">
+                                    <div class="dplay-tbl-cell"> <i class="fa fa-cloud-upload"></i>
+                                        <h5><b>Scegli il file delle variabili in formato .xlsx o .csv</b></h5>
+                                        <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
+                                    </div>
+                                </div>
+                                <input type="file" name="xlsx_name" id="xlsx_input" class="form-control" value="" accept=".csv,.xlsx">
+                                <div id='xlsx_feedback' class="invalid-feedback">
+                                    Error message
+                                </div> 
+                            </label>
+                        </div> <!--end of csv or xlsx upload-->
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Controlla validità</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-1">
+                  Third column
+                </div>
+            </div>
+        </div> <!--end of container--> 
 
-        <div class="item-wrapper one">
+
+
+
+
+        <!--
+            <div class="item-wrapper one">
             <div class="item">
                 <form class="needs-validation" novalidate>
                     <div class="item-inner">
                         <div class="item-content">
                             <div class="upload" id="docx_upload">
                                 <label style="cursor: pointer;" for="docx_input">
-                                    <img src="" alt="" class="uploaded-image">
+                                    <img src="static/imgs/cloud-upload-icon.png" alt="" class="uploaded-image">
                                     <div class="h-100">
                                         <div class="dplay-tbl">
                                             <div class="dplay-tbl-cell"> <i class="fa fa-cloud-upload"></i>
@@ -30,38 +82,42 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--upload-content--> <input type="file" name="docx_name" id="docx_input" class="input" value="">
+                                    <!--upload-content <input type="file" name="docx_name" id="docx_input" class="input" value="">
                                 </label> </div>
+                            </div>
+                            <!--item-content
                         </div>
-                        <!--item-content-->
-                    </div>
-                    <div class="valid-tooltip">
-                        Looks good!
-                      </div>
-                    <div class="item-inner">
-                        <div class="item-content">
-                            <div class="upload" id="xlsx_upload">
-                                <label style="cursor: pointer;" for="xlsx_input">
-                                    <img src="" alt="" class="uploaded-image">
-                                    <div class="h-100">
-                                        <div class="dplay-tbl">
-                                            <div class="dplay-tbl-cell"> <i class="fa fa-cloud-upload"></i>
-                                                <h5><b>Scegli il file delle variabili in formato .xlsx o .csv</b></h5>
-                                                <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
+                        <div class="valid-tooltip">
+                            Looks good!
+                          </div>
+                        <div class="item-inner">
+                            <div class="item-content">
+                                <div class="upload" id="xlsx_upload">
+                                    <label style="cursor: pointer;" for="xlsx_input">
+                                        <img src="static/imgs/cloud-upload-icon.png" alt="" class="uploaded-image">
+                                        <div class="h-100">
+                                            <div class="dplay-tbl">
+                                                <div class="dplay-tbl-cell"> <i class="fa fa-cloud-upload"></i>
+                                                    <h5><b>Scegli il file delle variabili in formato .xlsx o .csv</b></h5>
+                                                    <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!--upload-content--> <input type="file" name="xlsx_name" id="xlsx_input" class="input" value="">
-                                </label> </div>
+                                        <!--upload-content <input type="file" name="xlsx_name" id="xlsx_input" class="input" value="">
+                                    </label> </div>
+                            </div>
+                            <!--item-content
+                            <button type="submit" class="btn btn-primary">Carica i file</button>
                         </div>
-                        <!--item-content-->
-                        <button type="submit" class="btn btn-primary">Carica i file</button>
-                    </div>
-                    <!--item-inner-->
-                </form>
+                        <!--item-inner
+                    </form>
+                </div>
+                <!--item
             </div>
-            <!--item-->
-        </div>
+
+        -->
+
+        
         <script src="static/js/jquery.min.js"></script>
         <script src="static/js/bootstrap.bundle.min.js"></script>
         <script src="static/js/script.js"></script>
