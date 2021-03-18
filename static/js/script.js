@@ -172,10 +172,10 @@ function processServerCheck(res) {
             contentType: "application/json; charset=utf-8",
             traditional: true,
             success: function (data) {
-                $("html").empty();
-                $("html").hide(); 
-                $("html").append(data);
-                $("html").show(); 
+                $('body').empty();
+                $('body').hide(); 
+                $('body').append(data);
+                $('body').show();                
             }
         });
     }
@@ -194,37 +194,3 @@ function processServerCheck(res) {
         return
     }
 }
-
-/*
- if res['field'] == 'xlsx':
-        result_docx = ''
-        result_xlsx = res['text']
-        data = {
-                'field'
-                'result_docx': result_docx,
-                'result_xlsx': result_xlsx
-        }
-        
-        return data
-    
-    if res['field'] == 'both':
-        result_docx = res['text_docx']
-        result_xlsx = res['text_xlsx']
-        data = {
-            'result_docx': result_docx,
-            'result_xlsx': result_xlsx
-        }
-        
-        return data  
-*/
-
-/*
-$("html").empty();
-$("html").hide(); 
-$("html").append(data);
-var docx_input = $('input#docx_input');
-var xlsx_input = $('input#xlsx_input');
-docx_input.addClass('is-invalid');
-xlsx_input.addClass('is-invalid');
-$("html").show(); 
-*/

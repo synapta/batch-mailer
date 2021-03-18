@@ -61,7 +61,7 @@ async def load_files(request: Request,
 
 
 # Preview
-@app.get('/preview')
+@app.post('/preview')
 async def prepare_preview(request: Request, preview:Preview):
     preview = preview.dict()
     context = {
@@ -71,6 +71,7 @@ async def prepare_preview(request: Request, preview:Preview):
             'body': preview['body']
     }
     return templates.TemplateResponse('preview.html', context=context)
+
 
 # TODO SEND
 
