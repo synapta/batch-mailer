@@ -6,7 +6,6 @@ $(document).ready(function() {
     
     var docx_container = $('#docx_upload');
     var xlsx_container = $('#xlsx_upload');
-    var form = $('form')
     
     // Set drag and drop listeners
     setDragListeners(docx_container, fd)
@@ -20,8 +19,9 @@ $(document).ready(function() {
         handleXlsXUpload(this.files, fd);
     });
 
-    // Prevent submit behaviour and check the data
-    form.submit(function(e){
+    // Prevent submit behaviour and validate the included data
+    var validation_form = $('form#validation')
+    validation_form.submit(function(e){
         e.preventDefault();
         e.stopPropagation()
         validateData(fd)
@@ -83,9 +83,6 @@ function validateData(fd) {
 
 function localSideCheck(fd) {
     local_check = false
-    
-    var form = $('form')
-
     var docx_input = $('input#docx_input')
     var docx_error = $('div#docx_feedback')
     docx_input.removeClass('is-invalid')
@@ -150,15 +147,84 @@ function serverSideCheck(fd) {
         data: fd,
         processData: false,
         contentType: false,
-        success: function(data) {
-            $("html").empty();
-            $("html").hide(); 
-            $("html").append(data);
-            var docx_input = $('input#docx_input');
-            var xlsx_input = $('input#xlsx_input');
-            docx_input.addClass('is-invalid');
-            xlsx_input.addClass('is-invalid');
-            $("html").show(); 
+        success: function(res) {
+            // Process server response
+            processServerCheck(res)           
         }
     });
 }
+
+
+function processServerCheck(res) {
+    var docx_input = $('input#docx_input')
+    var docx_error = $('div#docx_feedback')
+    var xlsx_input = $('input#xlsx_input')
+    var xlsx_error = $('div#xlsx_feedback')
+    if (res['field'] == 'OK') {
+        preview_data = {'subject': res['data']['subject'],
+                        'recipient': res['data']['recipient'],
+                        'body': res['data']['body'],
+                        'lines': res['data']['lines']}
+        $.ajax({
+            type: 'POST',
+            url: '/preview',
+            data: JSON.stringify(preview_data),
+            contentType: "application/json; charset=utf-8",
+            traditional: true,
+            success: function (data) {
+                $("html").empty();
+                $("html").hide(); 
+                $("html").append(data);
+                $("html").show(); 
+            }
+        });
+    }
+
+    if (res['field'] == 'xlsx') {
+        xlsx_error.append(res['text'])
+        xlsx_input.addClass('is-invalid')
+        return
+    }
+
+    if (res['field'] == 'both') {
+        docx_error.append(res['text_docx'])
+        docx_input.addClass('is-invalid')
+        xlsx_error.append(res['text_xlsx'])
+        xlsx_input.addClass('is-invalid')
+        return
+    }
+}
+
+/*
+ if res['field'] == 'xlsx':
+        result_docx = ''
+        result_xlsx = res['text']
+        data = {
+                'field'
+                'result_docx': result_docx,
+                'result_xlsx': result_xlsx
+        }
+        
+        return data
+    
+    if res['field'] == 'both':
+        result_docx = res['text_docx']
+        result_xlsx = res['text_xlsx']
+        data = {
+            'result_docx': result_docx,
+            'result_xlsx': result_xlsx
+        }
+        
+        return data  
+*/
+
+/*
+$("html").empty();
+$("html").hide(); 
+$("html").append(data);
+var docx_input = $('input#docx_input');
+var xlsx_input = $('input#xlsx_input');
+docx_input.addClass('is-invalid');
+xlsx_input.addClass('is-invalid');
+$("html").show(); 
+*/

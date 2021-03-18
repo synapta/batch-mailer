@@ -1,10 +1,18 @@
-from fastapi import FastAPI, Request, File, UploadFile
+from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
 
 import check
 import read
 import create
+
+# Data Models
+class Preview(BaseModel):
+    subject: str
+    recipient: str
+    body: str
+    lines : int
 
 # Prepare fastAPI
 app = FastAPI()
@@ -18,47 +26,51 @@ def home(request: Request):
 
 # Check
 @app.post('/')
-async def load_files(request: Request, docx_file: UploadFile = File(...), xlsx_file: UploadFile = File(...)):
+async def load_files(request: Request,
+                     docx_file: UploadFile = File(...),
+                     xlsx_file: UploadFile = File(...)):
+    
     docx_byte = await docx_file.read()
     xlsx_byte = await xlsx_file.read()
 
     # Process and manage the results
-    res, docx, xlsx = process_inputs(xlsx_byte, docx_byte)
+    result, docx, xlsx = process_inputs(xlsx_byte, docx_byte)
 
-    if res == 'OK':
+    print('Processing output:')
+    print(result)
+
+    if result == 'OK':
         mails = create.mails(xlsx, docx)
         subject = mails[0]['subject']
-        print(subject)
         recipient = mails[0]['recipient']
         body = mails[0]['body']
-        context = {
-            'request': request,
+        response = {}
+        response['field'] = 'OK'
+        data = {
             'subject': subject,
-            'recipient' : recipient,
-            'body': body
+            'recipient': recipient,
+            'body': body,
+            'lines': len(mails),
+            'mails': mails  
         }
-        return templates.TemplateResponse('preview.html', context=context)
-
-    if res['field'] == 'xlsx':
-        result_docx = ''
-        result_xlsx = res['text']
-        context = {'request': request,
-                   'result_docx': result_docx,
-                   'result_xlsx': result_xlsx
-                  }
+        response['data'] = data
         
-        return templates.TemplateResponse('index.html', context=context)
+        return response
     
-    if res['field'] == 'both':
-        result_docx = res['text_docx']
-        result_xlsx = res['text_xlsx']
-        context = {'request': request,
-                   'result_docx': result_docx,
-                   'result_xlsx': result_xlsx
-                  }
-        
-        return templates.TemplateResponse('index.html', context=context)    
+    return result
 
+
+# Preview
+@app.get('/preview')
+async def prepare_preview(request: Request, preview:Preview):
+    preview = preview.dict()
+    context = {
+            'request': request,
+            'subject': preview['subject'],
+            'recipient' : preview['recipient'],
+            'body': preview['body']
+    }
+    return templates.TemplateResponse('preview.html', context=context)
 
 # TODO SEND
 

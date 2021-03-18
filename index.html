@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-10">
                     Second column
-                    <form novalidate> <!--novalidate to remove the default browser behaviour-->
+                    <form id='validation' novalidate> <!--novalidate to remove the default browser behaviour-->
                         <div class="upload" id="docx_upload">
                             <label style="cursor: pointer;" for="docx_input">
                                 <img src="static/imgs/cloud-upload-icon.png" alt="" class="uploaded-image">
@@ -31,7 +31,6 @@
                                 </div>
                                 <input type="file" name="docx_name" id="docx_input" class="form-control" value="" accept=".docx">
                                 <div id="docx_feedback" class="invalid-feedback">
-                                    {{ result_docx }}
                                 </div>
                             </label>
                         </div> <!--end of the docx upload-->
@@ -46,7 +45,6 @@
                                 </div>
                                 <input type="file" name="xlsx_name" id="xlsx_input" class="form-control" value="" accept=".csv,.xlsx">
                                 <div id='xlsx_feedback' class="invalid-feedback">
-                                    {{ result_xlsx }}
                                 </div>
                             </label>
                         </div> <!--end of csv or xlsx upload-->
