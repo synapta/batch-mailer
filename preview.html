@@ -1,29 +1,10 @@
-<div class="row align-items-start">
-    <div class="col-1">
-        First column
-    </div>
-    <div class="col-10">
-        <h1> {{ subject }} </h1>
-        <h4> Destinatario: {{ recipient }}</h4>
-        <div style="white-space: pre-line">
-            {{ body }}
-        </div>
-    </div>
-    <div class="col-1">
-        Third column
-    </div>
+<h1> {{ subject }} </h1>
+<h4> Destinatario: {{ recipient }}</h4>
+<div style="white-space: pre-line">
+  {{ body }}
 </div>
-<div class="row align-items-start">
-    <div class="col-1">
-        First column
-    </div>
-    <div class="col-10">
-        <form id="send">
-            <button class="btn btn-primary" type="submit" formaction='/send'>Invia le mail</button>
-            <button class="btn btn-primary" type="submit" formaction='/'>Modifica i file caricati</button>
-        </form>
-    </div>
-    <div class="col-1">
-        Third column
-    </div>
-</div>
+
+<form id="send">
+  <button class="btn btn-primary" type="submit" formaction='/send'>Invia le mail</button>
+  <button class="btn btn-primary" type="submit" formaction='/'>Modifica i file caricati</button>
+</form>

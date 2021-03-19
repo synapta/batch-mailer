@@ -1,68 +1,85 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        <!-- CSS -->
-        <link rel="stylesheet" href="static/css/style.css">
-        <link rel="stylesheet" href="static/css/bootstrap.min.css">
-        <link rel="stylesheet" href="static/fonts/font-awesome.min.css">
-    </head>
-    
-    <body>
-        <div class="container" id="main-container">
-            <div class="row align-items-start">
-                <div class="col-1">
-                    First column
-                </div>
-                <div class="col-10">
-                    Second column
-                    <form id='validation' novalidate> <!--novalidate to remove the default browser behaviour-->
-                        <div class="upload" id="docx_upload">
-                            <label style="cursor: pointer;" for="docx_input">
-                                <img src="static/imgs/cloud-upload-icon.png" alt="" class="uploaded-image">
-                                <div class="dplay-tbl">
-                                    <div class="dplay-tbl-cell"> <i class="fa fa-cloud-upload"></i>
-                                        <h5><b>Scegli il template della mail in formato .docx</b></h5>
-                                        <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
-                                    </div>
-                                </div>
-                                <input type="file" name="docx_name" id="docx_input" class="form-control" value="" accept=".docx">
-                                <div id="docx_feedback" class="invalid-feedback">
-                                </div>
-                            </label>
-                        </div> <!--end of the docx upload-->
-                        <div class="upload" id="xlsx_upload">
-                            <label style="cursor: pointer;" for="xlsx_input">
-                                <img src="static/imgs/cloud-upload-icon.png" alt="" class="uploaded-image">
-                                <div class="dplay-tbl">
-                                    <div class="dplay-tbl-cell"> <i class="fa fa-cloud-upload"></i>
-                                        <h5><b>Scegli il file delle variabili in formato .xlsx o .csv</b></h5>
-                                        <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
-                                    </div>
-                                </div>
-                                <input type="file" name="xlsx_name" id="xlsx_input" class="form-control" value="" accept=".csv,.xlsx">
-                                <div id='xlsx_feedback' class="invalid-feedback">
-                                </div>
-                            </label>
-                        </div> <!--end of csv or xlsx upload-->
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Controlla validità</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-1">
-                  Third column
-                </div>
-            </div>
-        </div> <!--end of container--> 
+<!DOCTYPE html>
+<html>
 
-        <script src="static/js/jquery.min.js"></script>
-        <script src="static/js/bootstrap.bundle.min.js"></script>
-        <script src="static/js/script.js"></script>
-    
-    </body>
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Tool per invio massivo delle PEC</title>
+
+  <link rel="stylesheet" href="static/css/semantic.min.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/index.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/style.css" type="text/css">
+</head>
+
+<body>
+
+  <div class="pusher">
+    <div id="main-container" class="container">
+      <form class="ui form" id='validation' novalidate>
+        <div class="upload" id="docx_upload">
+          <label style="cursor: pointer;" for="docx_input">
+            <img src="static/img/cloud-upload-icon.png" class="ui middle aligned small image upload-image">
+            <div class="dplay-tbl">
+              <div class="dplay-tbl-cell">
+                <h5><b>Scegli il template della mail in formato .docx</b></h5>
+                <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
+              </div>
+            </div>
+            <input type="file" name="docx_name" id="docx_input" class="form-control" value="" accept=".docx">
+            <div id="docx_feedback" class="invalid-feedback"></div>
+          </label>
+        </div>
+        <div class="upload" id="xlsx_upload">
+          <label style="cursor: pointer;" for="xlsx_input">
+            <img src="static/img/cloud-upload-icon.png" class="ui middle aligned small image upload-image">
+            <div class="dplay-tbl">
+              <div class="dplay-tbl-cell">
+                <h5><b>Scegli il file delle variabili in formato .xlsx o .csv</b></h5>
+                <h6 class="mt-10 mb-70">O trascina direttamente il file qui</h6>
+              </div>
+            </div>
+            <input type="file" name="xlsx_name" id="xlsx_input" class="form-control" value="" accept=".csv,.xlsx">
+            <div id='xlsx_feedback' class="invalid-feedback"></div>
+          </label>
+        </div>
+        <button class="btn btn-primary" type="submit">Controlla validità</button>
+      </form>
+    </div>
+    <div class="ui inverted vertical footer segment">
+      <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="five wide column">
+            <h4 class="ui inverted header">Per saperne di più</h4>
+            <div class="ui inverted link list">
+              <a href="https://www.wikimedia.it/" class="item">Wikimedia Italia</a>
+              <a href="https://wikilovesmonuments.wikimedia.it/" class="item">WikiLovesMonuments in Italia</a>
+              <a href="https://www.wikilovesmonuments.org/" class="item">WikiLovesMonuments nel mondo</a>
+              <a href="https://it.wikipedia.org/wiki/Libert%C3%A0_di_panorama" class="item">Libertà di panorama</a>
+            </div>
+          </div>
+          <div class="ten wide column">
+            <h4 class="ui inverted header">Realizzato da</h4>
+            <p>
+              <a href="https://www.wikimedia.it/">
+                <img class="ui middle aligned small image" src="static/img/Wikimedia_Italia-logo_horizontal.png">
+              </a>
+              <a href="https://synapta.it/">
+                <img class="ui middle aligned small image" src="static/img/synapta.png">
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/script.js"></script>
 
 </html>
