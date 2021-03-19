@@ -3,16 +3,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
+import data
 import check
 import read
 import create
-
-# Data Models
-class Preview(BaseModel):
-    subject: str
-    recipient: str
-    body: str
-    lines : int
+import send
 
 # Prepare fastAPI
 app = FastAPI()
@@ -33,47 +28,46 @@ async def load_files(request: Request,
     docx_byte = await docx_file.read()
     xlsx_byte = await xlsx_file.read()
 
+    # Store file metadata
+    data.docx['name'] = docx_file.filename
+    data.docx['content-type'] = docx_file.content_type
+    data.xlsx['name'] = xlsx_file.filename
+    data.xlsx['content-type'] = xlsx_file.content_type
+
     # Process and manage the results
     result, docx, xlsx = process_inputs(xlsx_byte, docx_byte)
 
-    print('Processing output:')
-    print(result)
-
     if result == 'OK':
-        mails = create.mails(xlsx, docx)
-        subject = mails[0]['subject']
-        recipient = mails[0]['recipient']
-        body = mails[0]['body']
-        response = {}
-        response['field'] = 'OK'
-        data = {
-            'subject': subject,
-            'recipient': recipient,
-            'body': body,
-            'lines': len(mails),
-            'mails': mails  
-        }
-        response['data'] = data
-        
-        return response
+        data.mails = create.mails(xlsx, docx)
+        data.docx['file'] = docx
+        data.xlsx['file'] = xlsx   
     
     return result
 
 
 # Preview
-@app.post('/preview')
-async def prepare_preview(request: Request, preview:Preview):
-    preview = preview.dict()
+@app.get('/preview')
+def prepare_preview(request: Request):
     context = {
-            'request': request,
-            'subject': preview['subject'],
-            'recipient' : preview['recipient'],
-            'body': preview['body']
+        'request': request,
+        'subject': data.mails[0]['subject'],
+        'recipient' : data.mails[0]['recipient'],
+        'body': data.mails[0]['body']
     }
+
     return templates.TemplateResponse('preview.html', context=context)
 
 
-# TODO SEND
+# Send
+@app.get('/send')
+async def massive_send(request: Request):
+    context = {
+        'request': request
+    }
+    send.send_mails(data.mails)
+    print('Return after processing')
+    
+    return templates.TemplateResponse('results.html', context=context)
 
 
 def process_inputs(xlsx_byte, docx_byte):

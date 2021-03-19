@@ -10,14 +10,5 @@ import check
 import create
 import send
 
-csv = read.read_csv('test.csv')
-doc = read.read_docx('test.docx')
-
-res = check.validity(csv, doc)
-
-print(res)
-
-if res == 'OK':
-    mails_dict = create.mails(csv, doc)
-    #send.prepare_mails('giuseppe@synapta.it', mails)
-    send.send_mails(mails_dict)
+mails_dict = [{'subject': 'Oggetto della mail per Caruso', 'recipient': 'giuseppe.futia@gmail.com', 'body': 'Gentile Caruso,\n\nLe scrivo questa brevissima mail di test per il progetto Progetto di Caruso.\n\nWikimedia Italia', 'attachments':[]}]
+send.send_mails(mails_dict)

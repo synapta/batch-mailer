@@ -149,48 +149,42 @@ function serverSideCheck(fd) {
         contentType: false,
         success: function(res) {
             // Process server response
-            processServerCheck(res)           
+            processServerResponse(res)           
         }
     });
 }
 
 
-function processServerCheck(res) {
+function processServerResponse(res) {
     var docx_input = $('input#docx_input')
     var docx_error = $('div#docx_feedback')
     var xlsx_input = $('input#xlsx_input')
     var xlsx_error = $('div#xlsx_feedback')
-    if (res['field'] == 'OK') {
-        preview_data = {'subject': res['data']['subject'],
-                        'recipient': res['data']['recipient'],
-                        'body': res['data']['body'],
-                        'lines': res['data']['lines']}
-        $.ajax({
-            type: 'POST',
-            url: '/preview',
-            data: JSON.stringify(preview_data),
-            contentType: "application/json; charset=utf-8",
-            traditional: true,
-            success: function (data) {
-                $('body').empty();
-                $('body').hide(); 
-                $('body').append(data);
-                $('body').show();                
-            }
+    if (res == 'OK') {
+        $.get('/preview', function(data, status) {
+            if (status == 'success') {
+                $('#main-container').empty();
+                $('#main-container').hide(); 
+                $('#main-container').append(data);
+                $('#main-container').show();  
+            } else {
+                docx_error.append(data);
+                docx_input.addClass('is-invalid');
+            }           
         });
     }
 
     if (res['field'] == 'xlsx') {
-        xlsx_error.append(res['text'])
-        xlsx_input.addClass('is-invalid')
+        xlsx_error.append(res['text']);
+        xlsx_input.addClass('is-invalid');
         return
     }
 
     if (res['field'] == 'both') {
-        docx_error.append(res['text_docx'])
-        docx_input.addClass('is-invalid')
-        xlsx_error.append(res['text_xlsx'])
-        xlsx_input.addClass('is-invalid')
+        docx_error.append(res['text_docx']);
+        docx_input.addClass('is-invalid');
+        xlsx_error.append(res['text_xlsx']);
+        xlsx_input.addClass('is-invalid');
         return
     }
 }
