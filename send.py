@@ -5,6 +5,8 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import socket
+
 """
 Prepare and send all mails
 """
@@ -18,16 +20,73 @@ def send_mails(mails_dict):
     password = ''
     port = 465  # For SSL
     smtp_server = 'smtp.gmail.com'
+    msg = ''
+    mails_res = []
 
     # Create a secure SSL context
     context = ssl.create_default_context()
 
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender, password)
+    # Connect to the server
+    connected = False
+    try:
+        server = smtplib.SMTP_SSL(smtp_server, port, context=context)
+        server.set_debuglevel(True)
+        connected = True
+    except socket.gaierror as socket_err:
+        msg = 'Connessione al server - Controlla l\'indirizzo: %s' % smtp_server
+        print(socket_err)
+    except Exception as err:
+        msg = 'Connessione al server - Errore generico'
+        print(err)
+    
+    # Login to the server
+    logged = False
+    if connected:
+        logged, login_err = server_login(server, sender, password)
+        msg = login_err
+    
+    # Massive mail sending
+    if logged:
         mails = prepare_mails(sender, mails_dict)
-        for m in mails:
-            server.sendmail(sender, m['recipient'], m['message'])
+        for m in mails: 
+            res = send_single_mail(server, sender, m['recipient'], m['message'])
+            mr = {'recipient': m['recipient'],
+                  'response': res}
+            mails_res.append(mr)
+    
+    server.quit()
 
+    return msg, mails_res
+
+
+def server_login(server, sender, password):
+    flg = False
+    msg = ''
+    try:
+        server.login(sender, password)
+        flg = True
+    except smtplib.SMTPConnectError as conn_err:
+        msg = 'Login - Errore di connessione con il server'
+        print(conn_err)
+    except smtplib.SMTPServerDisconnected as discnt_err:
+        msg = 'Login - Il server si è disconnesso inaspettatamente'
+        print(discnt_err)
+    except smtplib.SMTPAuthenticationError as auth_err:
+        msg = 'Login - Errore di autenticazione: controlla nome utente, password o le impostazioni di sicurezza del servizio'
+        print(auth_err)
+    except smtplib.SMTPResponseException as smtp_res:
+        msg = 'Login - Errore di risposta di SMTP'
+        print(smtp_res)
+    except smtplib.SMTPException as smtp_err:
+        msg = 'Login - Errore generico di SMTP'
+        print(smtp_err)
+    except Exception as err:
+        msg = 'Login - Errore generico'
+        error_msg+=msg
+        print(err)
+    finally:
+        return flg, e_msg
+        
 
 def prepare_mails(sender, mails_dict):
     mails = []
@@ -80,3 +139,25 @@ def prepare_attachments(attachments):
         parts.append(part)
     
     return parts
+
+
+def send_single_mail(server, sender, recipient, message):
+    msg = 'OK'
+    try:
+        server.sendmail(sender, recipient, message)
+    except smtplib.SMTPSenderRefused as sender_refused:
+        msg = 'Invio mail - Indirizzo del mittente rifiutato: %s' % sender
+        print(sender_refused)
+    except smtplib.SMTPRecipientsRefused as recipient_refused:
+        msg = 'Invio mail - Indirizzo del destinatario rifiutato: %s' % recipient
+        print(recipient_refused)
+    except smtplib.SMTPDataError as data_err:
+        msg = 'Invio mail - Messaggio non accettato dal server di posta: %s' % str(message)
+        print(data_err)
+    except smtplib.SMTPException as smtp_err:
+        msg = 'Invio mail - Errore generico di SMTP'
+        print(smtp_err)
+    except Exception as err:
+        msg = 'Invio mail - Errore generico'
+        print(err)
+    return msg
