@@ -3,9 +3,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
-import data
-import check
 import read
+import check
+import data
 import create
 import send
 
@@ -35,7 +35,7 @@ async def load_files(request: Request,
     data.xlsx['content-type'] = xlsx_file.content_type
 
     # Process and manage the results
-    result, docx, xlsx = process_inputs(xlsx_byte, docx_byte)
+    result, docx, xlsx = process_inputs(xlsx_byte, xlsx_file.content_type, docx_byte)
 
     if result == 'OK':
         data.mails = create.mails(xlsx, docx)
@@ -70,8 +70,13 @@ async def massive_send(request: Request):
     return templates.TemplateResponse('results.html', context=context)
 
 
-def process_inputs(xlsx_byte, docx_byte):
-    xlsx = read.read_csv(xlsx_byte)
+def process_inputs(xlsx_byte, xlsx_content_type, docx_byte):
+    if xlsx_content_type == 'text/csv':
+        csv_reader = read.read_csv(xlsx_byte)
+    elif xlsx_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        csv_reader = read.read_xlsx(xlsx_byte)
+    
+    xlsx = read.read_csv_reader(csv_reader)
     docx = read.read_docx(docx_byte)
     res = check.validity(xlsx, docx)
 

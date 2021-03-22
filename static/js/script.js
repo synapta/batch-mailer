@@ -99,6 +99,8 @@ function localSideCheck(fd) {
     is_docx = false
     is_xlsx = false
 
+    console.log(files['xlsx'].type)
+
     if (!$.isEmptyObject(files['docx'])) {
         exist_docx = true
         if (files['docx'].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
@@ -108,7 +110,9 @@ function localSideCheck(fd) {
 
     if (!$.isEmptyObject(files['xlsx'])) {
         exist_xlsx = true
-        if (files['xlsx'].type == 'text/csv') { //TODO: aggiungi la gestione dell'xslx
+        if (files['xlsx'].type == 'text/csv') {
+            is_xlsx = true
+        } else if (files['xlsx'].type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
             is_xlsx = true
         }
     }
