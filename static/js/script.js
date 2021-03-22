@@ -26,6 +26,20 @@ $(document).ready(function() {
         e.stopPropagation()
         validateData(fd)
     });
+
+    // Loading overlay
+    $.LoadingOverlaySetup({
+        background       : 'rgba(0, 0, 0, 0.8)',
+        image            : '',
+        imageAnimation   : 'rotate_right',
+        imageColor       : '#ffcc00',
+        text             : 'Sto processando i file e verificando gli allegati',
+        textColor        : '#FFFFFF',
+        textAutoResize   : true,
+        textResizeFactor : 0.5,
+        fontawesome      : 'fa fa-cog fa-spin'      
+    });
+    
 });
 
 
@@ -33,10 +47,10 @@ function setDragListeners(container, fd) {
     container.on({
         'dragenter': function (e) {
             e.preventDefault();
-            // msgHolder.html("Drop here");
+            // msgHolder.html('Drop here');
         },
         'dragleave': function (e) {
-            // msgHolder.html("Click / Drop file to select.");
+            // msgHolder.html('Click / Drop file to select.');
         },
         'drop': function (e) {
             e.preventDefault()
@@ -151,9 +165,13 @@ function serverSideCheck(fd) {
         data: fd,
         processData: false,
         contentType: false,
+        beforeSend: function() {
+            $.LoadingOverlay('show');
+        },
         success: function(res) {
             // Process server response
-            processServerResponse(res)           
+            $.LoadingOverlay('hide');
+            processServerResponse(res);           
         }
     });
 }
