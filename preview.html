@@ -1,10 +1,15 @@
-<h1> {{ subject }} </h1>
-<h4> Destinatario: {{ recipient }}</h4>
-<div style="white-space: pre-line">
-  {{ body }}
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <p class="fw-bolder fs-1 text"> {{ subject }} </p>
+    <p class="fs-2 text"> Destinatario: {{ recipient }} </p>
+    <div style="white-space: pre-line">
+      <p class="font-monospace lh-lg fw-normal">{{ body }}</p>
+    </div>
+    <form id="send">
+      <button class="btn btn-primary" type="submit" formaction='/send'>Invia le mail</button>
+      <button class="btn btn-primary" type="submit" formaction='/'>Modifica i file caricati</button>
+    </form>
+  </div>
+  <div class="col-sm-1"></div>
 </div>
-
-<form id="send">
-  <button class="btn btn-primary" type="submit" formaction='/send'>Invia le mail</button>
-  <button class="btn btn-primary" type="submit" formaction='/'>Modifica i file caricati</button>
-</form>
