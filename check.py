@@ -1,18 +1,18 @@
+import asyncio
+import httpx
 import re
-import read
-
-import os
 import requests
-from urllib.parse import urlparse
+import os
+
+import read
 
 """
 Consistency check in the files
 """
 
 # TODO: verificare se occorrono ulteriori controlli sul testo, ad esempio strim()
-# TODO: migliora la gestione degli attachments
 
-def validity(csv, doc):
+async def validity(csv, doc):
 
     # 'oggetto' and 'pec' are required
     valid, msg = valid_csv(csv)
@@ -28,7 +28,7 @@ def validity(csv, doc):
         return msg
     
     # check and download the attachments
-    valid, msg = valid_attachments(csv)
+    valid, msg = await valid_attachments(csv)
     if not valid:
         print(msg['text'])
         return msg
@@ -80,9 +80,10 @@ def valid_consistency(csv, doc):
     return valid, msg
 
 
-def valid_attachments(csv):
+async def valid_attachments(csv):
     print('\nCheck if the attachments are valid')
     msg = {}
+    msg['text'] = ''
     valid = True
 
     # Get all the attachments
@@ -97,19 +98,45 @@ def valid_attachments(csv):
         attachments[line] = line_attachments
         line+=1
     
-    # Check and download all the attachments
-    text_error = ''
-    for k, v in attachments.items():
-        urls = [u for u in v if 'http://' in u or 'https://' in u]
-        for url in urls:
-            url_text = urlparse(url)
-            name = os.path.basename(url_text.path)
-            
-            # Won't be able to identify the name file
-            if len(url) > 0 and name == '':
+    # Check all the attachments
+    for row, urls in attachments.items():
+        
+        # No empty 'allegato' fields
+        valid_urls = [i.strip() for i in urls if i.strip() != '']
+        
+        # Get headers (async way) and process
+        results = await task(valid_urls)
+        for r in results:
+            if type(r['response']) == httpx.Headers:
+                url = r['url']
+                ct = r['response']['content-type'].lower()
+                if 'text' in ct or 'html' in ct:
+                    valid = False
+                    msg['field'] = 'xlsx'
+                    msg['text'] += """Controlla l\'allegato {u} alla riga {r}. Il link non contiene un file.\n""".format(u=url, r=int(row)+1)
+            else:
+                url = r['url']
                 valid = False
-                mgs['field'] = 'xlsx'
-                text_error += """Controlla l\'allegato {u} alla riga {k}. Non sembra un file valido.\n""".format(u=url, k=k)
-                msg['text'] = text_error
+                msg['field'] = 'xlsx'
+                msg['text'] += """Controlla l\'allegato {u} alla riga {r}. Non sembra un link valido.\n""".format(u=url, r=int(row)+1)
     
     return valid, msg
+
+
+async def request_header(client, url):
+    print('    Get attachment header: %s' % url)
+    res = None
+    try:
+        response = await client.head(url)
+        res = response.headers
+    except Exception as err:
+        res = 'Errore'
+    
+    return {'url': url, 'response': res}
+
+
+async def task(urls):
+    async with httpx.AsyncClient() as client:
+        tasks = [request_header(client, url) for url in urls]
+        results = await asyncio.gather(*tasks)
+        return results

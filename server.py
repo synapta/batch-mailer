@@ -35,13 +35,13 @@ async def load_files(request: Request,
     data.xlsx['content-type'] = xlsx_file.content_type
 
     # Process and manage the results
-    result, docx, xlsx = process_inputs(xlsx_byte, xlsx_file.content_type, docx_byte)
+    result, docx, xlsx = await process_inputs(xlsx_byte, xlsx_file.content_type, docx_byte)
 
     if result == 'OK':
         data.mails = create.mails(xlsx, docx)
         data.docx['file'] = docx
-        data.xlsx['file'] = xlsx   
-    
+        data.xlsx['file'] = xlsx
+
     return result
 
 
@@ -52,7 +52,8 @@ def prepare_preview(request: Request):
         'request': request,
         'subject': data.mails[0]['subject'],
         'recipient' : data.mails[0]['recipient'],
-        'body': data.mails[0]['body']
+        'body': data.mails[0]['body'],
+        'attachments': data.mails[0]['attachments']
     }
 
     return templates.TemplateResponse('preview.html', context=context)
@@ -70,7 +71,7 @@ async def massive_send(request: Request):
     return templates.TemplateResponse('results.html', context=context)
 
 
-def process_inputs(xlsx_byte, xlsx_content_type, docx_byte):
+async def process_inputs(xlsx_byte, xlsx_content_type, docx_byte):
     if xlsx_content_type == 'text/csv':
         csv_reader = read.read_csv(xlsx_byte)
     elif xlsx_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
@@ -78,6 +79,6 @@ def process_inputs(xlsx_byte, xlsx_content_type, docx_byte):
     
     xlsx = read.read_csv_reader(csv_reader)
     docx = read.read_docx(docx_byte)
-    res = check.validity(xlsx, docx)
+    res = await check.validity(xlsx, docx)
 
     return res, docx, xlsx

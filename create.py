@@ -17,19 +17,16 @@ def mails(csv, templ):
         # Recipient
         m['recipient'] = row['pec']
 
-        # Mail text
+        # Body
         doc = mail_text(row, templ)
         text_doc = get_text(doc)
         m['body'] = text_doc
 
         # Attachments
         m['attachments'] = []
-
         for k,v in row.items():
             if 'allegato' in k and v != '':
-                url_text = urlparse(v)
-                name = os.path.basename(url_text.path) 
-                m['attachments'].append(name)
+                m['attachments'].append(v)
 
         all_mails.append(m)
     
