@@ -1,4 +1,17 @@
 /* 
+* Template changes
+*/
+
+.masthead.segment {
+    min-height: 0px !important
+    
+}
+
+.wikimedia {
+    padding-bottom: 1em !important
+}
+
+/* 
 * Basic form
 */
 form {
@@ -7,7 +20,7 @@ form {
 
 .upload {
     width: 100%;
-    height: 40%;
+    
     border: 1px dashed #ddd;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -32,6 +45,10 @@ form {
 .upload-image {
     margin: 10px;
 }
+
+/* 
+* Hidden buttons
+*/
 
 .preview-button {
     display: none;
