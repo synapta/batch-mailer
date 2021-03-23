@@ -1,1 +1,64 @@
-Results
+<!DOCTYPE html>
+
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Tool per invio massivo delle PEC</title>
+
+  <link rel="stylesheet" href="static/css/semantic.min.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/index.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div class="pusher">
+    <div id="main-container" class="container">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6">
+          <ul class="list-group">
+            {%- for item in mails -%}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ item['recipient'] }}
+              <span class="badge bg-primary rounded-pill">{{ item['response'] }}</span>
+            </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui inverted vertical footer segment">
+    <div class="ui container">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="five wide column">
+          <h4 class="ui inverted header">Per saperne di più</h4>
+          <div class="ui inverted link list">
+            <a href="https://www.wikimedia.it/" class="item">Wikimedia Italia</a>
+            <a href="https://wikilovesmonuments.wikimedia.it/" class="item">WikiLovesMonuments in Italia</a>
+            <a href="https://www.wikilovesmonuments.org/" class="item">WikiLovesMonuments nel mondo</a>
+            <a href="https://it.wikipedia.org/wiki/Libert%C3%A0_di_panorama" class="item">Libertà di panorama</a>
+          </div>
+        </div>
+        <div class="ten wide column">
+          <h4 class="ui inverted header">Realizzato da</h4>
+          <p>
+            <a href="https://www.wikimedia.it/">
+              <img class="ui middle aligned small image" src="static/img/Wikimedia_Italia-logo_horizontal.png">
+            </a>
+            <a href="https://synapta.it/">
+              <img class="ui middle aligned small image" src="static/img/synapta.png">
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -64,11 +64,11 @@ def prepare_preview(request: Request):
 # Send
 @app.get('/send')
 async def massive_send(request: Request):
-    context = {
-        'request': request
-    }
     msg, mails_sent = await send.send_mails(data.mails)
-    print('Return after processing')
+    context = {
+        'request': request,
+        'mails': mails_sent
+    }
     
     return templates.TemplateResponse('results.html', context=context)
 
