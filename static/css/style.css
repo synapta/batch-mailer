@@ -37,6 +37,10 @@ form {
     display: none;
 }
 
+.back-button {
+    display: none;
+}
+
 /* 
 * Validation
 */
