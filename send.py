@@ -1,27 +1,28 @@
 import email, smtplib, ssl
-
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 import socket
+import os
 
-"""
+import utils
+
+'''
 Prepare and send all mails
-"""
+'''
 
 # TODO: make test with next cloud
-# TODO: remove the attachments
 
-def send_mails(mails_dict):
+async def send_mails(mails_dict):
+    print('\nSending emails')
     # Request parameters
     sender = 'giuseppe@synapta.it'
-    password = ''
+    password = 'IngSynapta1986'
     port = 465  # For SSL
     smtp_server = 'smtp.gmail.com'
     msg = ''
-    mails_res = []
+    mails_sent = []
 
     # Create a secure SSL context
     context = ssl.create_default_context()
@@ -30,7 +31,6 @@ def send_mails(mails_dict):
     connected = False
     try:
         server = smtplib.SMTP_SSL(smtp_server, port, context=context)
-        server.set_debuglevel(True)
         connected = True
     except socket.gaierror as socket_err:
         msg = 'Connessione al server - Controlla l\'indirizzo: %s' % smtp_server
@@ -47,16 +47,27 @@ def send_mails(mails_dict):
     
     # Massive mail sending
     if logged:
-        mails = prepare_mails(sender, mails_dict)
+        mails = await prepare_mails(sender, mails_dict)
         for m in mails: 
             res = send_single_mail(server, sender, m['recipient'], m['message'])
             mr = {'recipient': m['recipient'],
                   'response': res}
-            mails_res.append(mr)
-    
-    server.quit()
+            mails_sent.append(mr)
+        
+        # Quit
+        server.quit()
 
-    return msg, mails_res
+        # Remove all downloaded attachments
+        for md in mails_dict:
+            urls = md['attachments']
+            for url in urls:
+                file_name = utils.get_name_from_url(url)
+                if os.path.exists(file_name):
+                    os.remove(file_name)
+    
+    print('    %s' % msg)
+
+    return msg, mails_sent
 
 
 def server_login(server, sender, password):
@@ -85,26 +96,26 @@ def server_login(server, sender, password):
         error_msg+=msg
         print(err)
     finally:
-        return flg, e_msg
+        return flg, msg
         
 
-def prepare_mails(sender, mails_dict):
+async def prepare_mails(sender, mails_dict):
     mails = []
     # Prepare messages
     for md in mails_dict:
         message = MIMEMultipart()
-        message["From"] = sender
-        message["To"] = md['recipient']
-        message["Subject"] = md['subject']
-        message["Bcc"] = sender  # Recommended for mass emails
+        message['From'] = sender
+        message['To'] = md['recipient']
+        message['Subject'] = md['subject']
+        message['Bcc'] = sender  # Recommended for mass emails
         
         # Add body to email
         body = md['body']
-        message.attach(MIMEText(body, "plain"))
+        message.attach(MIMEText(body, 'plain'))
 
         # Add attached files
         attachments = md['attachments']
-        parts = prepare_attachments(attachments)
+        parts = await prepare_attachments(attachments)
 
         for p in parts:
             message.attach(p)
@@ -119,12 +130,21 @@ def prepare_mails(sender, mails_dict):
     return mails
 
 
-def prepare_attachments(attachments):
+async def prepare_attachments(urls):
     parts = []
+    file_names = []
+    
+    # Process results
+    results = await utils.multi_requests(urls, utils.request)
+    for i in results:
+        file_name = i['file_name']
+        response = i['response']
+        if response == 200:
+            file_names.append(file_name)
 
-    for file_name in attachments:
-        with open(file_name, "rb") as attached_file:
-            part = MIMEBase("application", "octet-stream")
+    for file_name in file_names:
+        with open(file_name, 'rb') as attached_file:
+            part = MIMEBase('application', 'octet-stream')
             part.set_payload(attached_file.read())
 
         # Encode file in ASCII characters to send by email    
@@ -132,8 +152,8 @@ def prepare_attachments(attachments):
 
         # Add header as key/value pair to attachment part
         part.add_header(
-            "Content-Disposition",
-            f"attachment; filename= {file_name}",
+            'Content-Disposition',
+            f'attachment; filename= {file_name}',
         )
 
         parts.append(part)

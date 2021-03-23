@@ -1,10 +1,9 @@
 import asyncio
 import httpx
 import re
-import requests
-import os
 
 import read
+import utils
 
 """
 Consistency check in the files
@@ -105,7 +104,7 @@ async def valid_attachments(csv):
         valid_urls = [i.strip() for i in urls if i.strip() != '']
         
         # Get headers (async way) and process
-        results = await task(valid_urls)
+        results = await utils.multi_requests(valid_urls, utils.request_header)
         for r in results:
             if type(r['response']) == httpx.Headers:
                 url = r['url']
@@ -121,22 +120,3 @@ async def valid_attachments(csv):
                 msg['text'] += """Controlla l\'allegato {u} alla riga {r}. Non sembra un link valido.\n""".format(u=url, r=int(row)+1)
     
     return valid, msg
-
-
-async def request_header(client, url):
-    print('    Get attachment header: %s' % url)
-    res = None
-    try:
-        response = await client.head(url)
-        res = response.headers
-    except Exception as err:
-        res = 'Errore'
-    
-    return {'url': url, 'response': res}
-
-
-async def task(urls):
-    async with httpx.AsyncClient() as client:
-        tasks = [request_header(client, url) for url in urls]
-        results = await asyncio.gather(*tasks)
-        return results

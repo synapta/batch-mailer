@@ -1,7 +1,6 @@
 from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
 
 import read
 import check
@@ -65,7 +64,7 @@ async def massive_send(request: Request):
     context = {
         'request': request
     }
-    send.send_mails(data.mails)
+    msg, mails_sent = await send.send_mails(data.mails)
     print('Return after processing')
     
     return templates.TemplateResponse('results.html', context=context)
