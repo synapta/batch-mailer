@@ -11,7 +11,7 @@ import send
 # Prepare fastAPI
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='static'), name='static')
-templates = Jinja2Templates(directory='./')
+templates = Jinja2Templates(directory='./templates')
 
 # Home
 @app.get('/')
