@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, Form, Request, UploadFile
+from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -52,7 +52,10 @@ def prepare_preview(request: Request):
         'subject': data.mails[0]['subject'],
         'recipient' : data.mails[0]['recipient'],
         'body': data.mails[0]['body'],
-        'attachments': data.mails[0]['attachments']
+        'attachments': data.mails[0]['attachments'],
+        'num_recipients': len(data.mails),
+        'recipients': [ i['recipient'] for i in data.mails],
+        'docx_template': data.docx['name']
     }
 
     return templates.TemplateResponse('preview.html', context=context)
