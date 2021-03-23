@@ -16,11 +16,13 @@ Prepare and send all mails
 
 async def send_mails(mails_dict):
     print('\nSending emails')
+    
     # Request parameters
-    sender = 'giuseppe@synapta.it'
-    password = 'IngSynapta1986'
-    port = 465  # For SSL
-    smtp_server = 'smtp.gmail.com'
+    config = await utils.read_config()
+    sender = config['mail']['sender']
+    password = config['mail']['password']
+    port = config['mail']['port']  # 465 For SSL
+    smtp_server = config['mail']['server']
     msg = ''
     mails_sent = []
 
@@ -95,8 +97,8 @@ def server_login(server, sender, password):
         msg = 'Login - Errore generico'
         error_msg+=msg
         print(err)
-    finally:
-        return flg, msg
+
+    return flg, msg
         
 
 async def prepare_mails(sender, mails_dict):
@@ -180,4 +182,5 @@ def send_single_mail(server, sender, recipient, message):
     except Exception as err:
         msg = 'Invio mail - Errore generico'
         print(err)
+    
     return msg

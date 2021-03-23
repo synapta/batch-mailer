@@ -1,0 +1,12 @@
+{
+    "mail": {
+        "sender": "sender",
+        "password": "password",
+        "port": "port",
+        "server": "server"
+    },
+    "nextcloud": {
+        "user": "user",
+        "password":  "password"
+    }
+}
