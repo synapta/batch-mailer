@@ -46,16 +46,14 @@ function setDragListeners(container, fd) {
     container.on({
         'dragenter': function (e) {
             e.preventDefault();
-            // msgHolder.html('Drop here');
         },
         'dragleave': function (e) {
-            // msgHolder.html('Click / Drop file to select.');
         },
         'drop': function (e) {
             e.preventDefault()
-            if (e.target.id == 'docx_upload') {
+            if (e.target.id == 'docx_input') {
                 handleDocXUpload(e.originalEvent.dataTransfer.files, fd);
-            } else if (e.target.id == 'xlsx_upload') {
+            } else if (e.target.id == 'xlsx_input') {
                 handleXlsXUpload(e.originalEvent.dataTransfer.files, fd)
             }  
         },
@@ -111,8 +109,6 @@ function localSideCheck(fd) {
     exist_xlsx = false
     is_docx = false
     is_xlsx = false
-
-    console.log(files['xlsx'].type)
 
     if (!$.isEmptyObject(files['docx'])) {
         exist_docx = true
@@ -181,7 +177,6 @@ function processServerResponse(res) {
     var xlsx_input = $('input#xlsx_input')
     var xlsx_error = $('div#xlsx_feedback')
     if (res == 'OK') {
-        console.log('cazzo')
         $('.preview-button').click()
     }
 
