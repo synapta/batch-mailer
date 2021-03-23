@@ -39,7 +39,6 @@ $(document).ready(function() {
         textResizeFactor : 0.5,
         fontawesome      : 'fa fa-cog fa-spin'      
     });
-    
 });
 
 
@@ -169,7 +168,6 @@ function serverSideCheck(fd) {
             $.LoadingOverlay('show');
         },
         success: function(res) {
-            // Process server response
             $.LoadingOverlay('hide');
             processServerResponse(res);           
         }
@@ -183,17 +181,8 @@ function processServerResponse(res) {
     var xlsx_input = $('input#xlsx_input')
     var xlsx_error = $('div#xlsx_feedback')
     if (res == 'OK') {
-        $.get('/preview', function(data, status) {
-            if (status == 'success') {
-                $('#main-container').empty();
-                $('#main-container').hide(); 
-                $('#main-container').append(data);
-                $('#main-container').show();  
-            } else {
-                docx_error.append(data);
-                docx_input.addClass('is-invalid');
-            }           
-        });
+        console.log('cazzo')
+        $('.preview-button').click()
     }
 
     if (res['field'] == 'xlsx') {

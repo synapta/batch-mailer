@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 
 <head>
   <!-- Standard Meta -->
@@ -16,7 +15,6 @@
 </head>
 
 <body>
-
   <div class="pusher">
     <div id="main-container" class="container">
       <form class="ui form" id='validation' novalidate>
@@ -49,6 +47,9 @@
         <button class="btn btn-primary" type="submit">Controlla validità</button>
       </form>
     </div>
+    <form id='preview'>
+      <button class='preview-button' type="submit" formaction='/preview'></button>
+    </form>
     <div class="ui inverted vertical footer segment">
       <div class="ui container">
         <div class="ui stackable inverted divided equal height stackable grid">
@@ -76,8 +77,8 @@
       </div>
     </div>
   </div>
-
 </body>
+
 <script src="static/js/jquery.min.js"></script>
 <script src="static/js/bootstrap.bundle.min.js"></script>
 <script src="static/js/loadingoverlay.min.js"></script>

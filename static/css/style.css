@@ -33,6 +33,10 @@ form {
     margin: 10px;
 }
 
+.preview-button {
+    display: none;
+}
+
 /* 
 * Validation
 */
