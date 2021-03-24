@@ -1,0 +1,10 @@
+aiofile==3.5.0
+cefpython3==66.0
+fastapi==0.63.0
+httpx==0.17.1
+Jinja2==2.11.3
+openpyxl==3.0.7
+python-docx==0.8.10
+python-multipart==0.0.5
+uvicorn==0.13.4
+uvloop==0.15.2
