@@ -1,6 +1,6 @@
 from aiofile import async_open
+import aiohttp
 import asyncio
-import httpx
 import json
 
 """
@@ -12,7 +12,9 @@ async def request_header(client, url):
     res = None
     try:
         response = await client.head(url)
-        res = response.headers
+        headers = response.headers
+        res = {}
+        res['content-type'] = headers['Content-Type']
     except Exception as err:
         res = 'Errore'
         print('    %s' % str(err))
@@ -33,11 +35,11 @@ async def request(client, url):
         headers = 'Errore'
         print('    %s' % str(err))
     
-    return {'url': url, 'file_name': file_name, 'response': res.status_code}
+    return {'url': url, 'file_name': file_name, 'response': res.status}
 
 
 async def multi_requests(urls, req_func):
-    async with httpx.AsyncClient() as client:
+    async with aiohttp.ClientSession() as client:
         tasks = [req_func(client, url) for url in urls]
         results = await asyncio.gather(*tasks)
         

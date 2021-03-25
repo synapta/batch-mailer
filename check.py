@@ -1,6 +1,5 @@
-import asyncio
-import httpx
 import re
+import aiohttp
 
 import read
 import utils
@@ -106,7 +105,7 @@ async def valid_attachments(csv):
         # Get headers (async way) and process
         results = await utils.multi_requests(valid_urls, utils.request_header)
         for r in results:
-            if type(r['response']) == httpx.Headers:
+            if type(r['response']) == dict:
                 url = r['url']
                 ct = r['response']['content-type'].lower()
                 if 'text' in ct or 'html' in ct:
