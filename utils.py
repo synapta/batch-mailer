@@ -1,10 +1,9 @@
 from aiofile import async_open
 import aiohttp
 import asyncio
-import json
 
 """
-Utils functions to manage attachments and file reading asyncronously
+Utils functions to manage attachments
 """
 
 async def request_header(client, url):
@@ -29,8 +28,9 @@ async def request(client, url):
     try:
         res = await client.get(url)
         headers = res.headers
+        content = await res.read()
         file_name = get_name_from_url(url)
-        open(file_name, 'wb').write(res.content)
+        open(file_name, 'wb').write(content)
     except Exception as err:
         headers = 'Errore'
         print('    %s' % str(err))
@@ -44,13 +44,6 @@ async def multi_requests(urls, req_func):
         results = await asyncio.gather(*tasks)
         
         return results
-
-
-async def read_config():
-    async with async_open('setting.json', 'r') as setting_cfg:
-        setting = await setting_cfg.read()
-        
-        return json.loads(setting)
 
 
 def get_name_from_url(url):

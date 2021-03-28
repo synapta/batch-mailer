@@ -1,19 +1,44 @@
 
 from cefpython3 import cefpython as cef
+import ctypes
+import os
 import platform
 import sys
 from threading import Thread
 import uvicorn
+import time
 
-import server
+import app.server as server
+
+def cef_settings():
+    if hasattr(sys, '_MEIPASS'):
+        # settings when packaged
+        settings = {'locales_dir_path': os.path.join(sys._MEIPASS, 'locales'),
+                    'resources_dir_path': sys._MEIPASS,
+                    'browser_subprocess_path': os.path.join(sys._MEIPASS, 'subprocess.exe')}
+    else:
+        # settings when unpackaged
+        settings = {}
+    
+    return settings
 
 def launch_cef():
     check_versions()
     sys.excepthook = cef.ExceptHook  # To shutdown all CEF processes on error
-    cef.Initialize()
-    cef.CreateBrowserSync(url="http://localhost:8000/",
+    cef.Initialize(settings=cef_settings())
+    browser = cef.CreateBrowserSync(url="http://localhost:8000/",
                           window_title="Wikimedia Italia - Invio PEC")
+    
+    if platform.system() == "Windows":
+        window_handle = browser.GetOuterWindowHandle()
+        insert_after_handle = 0
+        # X and Y parameters are ignored by setting the SWP_NOMOVE flag
+        SWP_NOMOVE = 0x0002
+        # noinspection PyUnresolvedReferences
+        ctypes.windll.user32.SetWindowPos(window_handle, insert_after_handle,
+                                          0, 0, 900, 640, SWP_NOMOVE)
     cef.MessageLoop()
+    del browser
     cef.Shutdown()
 
 
@@ -36,4 +61,5 @@ if __name__ == '__main__':
     t1 = Thread(target=launch_unicorn)
     t2 = Thread(target=launch_cef)
     t1.start()
+    time.sleep(3)
     t2.start()

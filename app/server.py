@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import os
 
 import read
 import check
@@ -9,9 +10,10 @@ import create
 import send
 
 # Prepare fastAPI
+base_dir = os.path.dirname(os.path.abspath(__file__)) # Get the path files: useful to import static and templates
 app = FastAPI()
-app.mount('/static', StaticFiles(directory='./static'), name='static')
-templates = Jinja2Templates(directory='./templates')
+app.mount('/static', StaticFiles(directory=os.path.join(base_dir, 'static')), name='static')
+templates = Jinja2Templates(directory=os.path.join(base_dir, 'templates'))
 
 # Home
 @app.get('/')
@@ -29,12 +31,12 @@ async def load_files(request: Request,
 
     # Store file metadata
     data.docx['name'] = docx_file.filename
-    data.docx['content-type'] = docx_file.content_type
+    data.docx['content-type'] = 'docx'
     data.xlsx['name'] = xlsx_file.filename
     data.xlsx['content-type'] = xlsx_file.content_type
 
     # Process and manage the results
-    result, docx, xlsx = await process_inputs(xlsx_byte, xlsx_file.content_type, docx_byte)
+    result, docx, xlsx = await process_inputs(xlsx_byte, 'csv', docx_byte)
 
     if result == 'OK':
         data.mails = create.mails(xlsx, docx)
@@ -74,9 +76,11 @@ async def massive_send(request: Request):
 
 
 async def process_inputs(xlsx_byte, xlsx_content_type, docx_byte):
-    if xlsx_content_type == 'text/csv':
+    csv_reader = None
+    
+    if xlsx_content_type == 'csv':
         csv_reader = read.read_csv(xlsx_byte)
-    elif xlsx_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+    elif xlsx_content_type == 'xlsx':
         csv_reader = read.read_xlsx(xlsx_byte)
     
     xlsx = read.read_csv_reader(csv_reader)

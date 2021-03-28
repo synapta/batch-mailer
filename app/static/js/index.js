@@ -110,18 +110,26 @@ function localSideCheck(fd) {
     is_docx = false
     is_xlsx = false
 
+    var re = /(?:\.([^.]+))?$/;
+
     if (!$.isEmptyObject(files['docx'])) {
         exist_docx = true
-        if (files['docx'].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        console.log(files)
+        console.log(files['docx'].type)
+        if (files['docx'].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            re.exec(files['docx'].name)[1] == 'docx') {
             is_docx = true
         }
     }
 
     if (!$.isEmptyObject(files['xlsx'])) {
         exist_xlsx = true
-        if (files['xlsx'].type == 'text/csv') {
+        console.log(files)
+        console.log(files['xlsx'].type)
+        if (files['xlsx'].type == 'text/csv' || re.exec(files['xlsx'].name)[1] == 'csv') {
             is_xlsx = true
-        } else if (files['xlsx'].type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+        } else if (files['xlsx'].type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            re.exec(files['xlsx'].name)[1] == 'xlsx') {
             is_xlsx = true
         }
     }
