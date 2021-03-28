@@ -18,11 +18,10 @@ async def send_mails(mails_dict):
     print('\nSending emails')
     
     # Request parameters
-    config = await utils.read_config()
-    sender = config['mail']['sender']
-    password = config['mail']['password']
-    port = config['mail']['port']  # 465 For SSL
-    smtp_server = config['mail']['server']
+    sender = 'giuseppe@synapta.it'
+    password = ''
+    port = 465  # 465 For SSL
+    smtp_server = 'smtp.gmail.com'
     msg = ''
     mails_sent = []
 
