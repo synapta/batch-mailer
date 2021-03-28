@@ -12,6 +12,14 @@
 }
 
 /* 
+* Login page
+*/
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* 
 * Basic form
 */
 
@@ -50,6 +58,10 @@ form {
 /* 
 * Hidden buttons
 */
+
+.login-button {
+    display: none;
+}
 
 .preview-button {
     display: none;
