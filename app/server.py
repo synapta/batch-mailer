@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
+import re
 
 import read
 import check
@@ -55,10 +56,10 @@ async def load_files(request: Request,
     data.docx['name'] = docx_file.filename
     data.docx['content-type'] = 'docx'
     data.xlsx['name'] = xlsx_file.filename
-    data.xlsx['content-type'] = xlsx_file.content_type
+    data.xlsx['content-type'] = re.search("(?:\.([^.]+))?$", xlsx_file.filename).group(1).replace('.','')
 
     # Process and manage the results
-    result, docx, xlsx = await process_inputs(xlsx_byte, 'csv', docx_byte)
+    result, docx, xlsx = await process_inputs(xlsx_byte, data.xlsx['content-type'], docx_byte)
 
     if result == 'OK':
         data.mails = create.mails(xlsx, docx)
