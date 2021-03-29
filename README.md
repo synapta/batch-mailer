@@ -55,7 +55,7 @@ Moreover, you need to install the [Pyinstaller tool](https://pypi.org/project/py
 
 This repository provides a `main.spec` file and a `hook-cefpython3.py` file in the `hooks` folder, which specify all the dependencies (and the related paths) to build the .exe file. In particular, they provide all the instructions to use the uvicorn application server the cef tool in a Windows desktop app.
 
-To generate the .exe, you can run the following command. In your .spec file, remember to update the following lines according you folder structure:
+To generate the .exe, you can run the following command. In your .spec file, remember to update the following lines according your folder structure:
 
 ```
 pathex=['C:\\Users\\Giuseppe\\Scrivania\\batch-mailer'],
