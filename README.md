@@ -9,7 +9,7 @@ Create the environment and install from requirements.txt:
 
 ```
 cd batch-mailer
-virtualenv venv
-source venv/bin/activate
+virtualenv -p python3.6 venv36
+source venv36/bin/activate
 pip3 install -r requirements.txt
 ```
