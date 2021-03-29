@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var form = $('form#constrol')
+    var form = $('form#control')
     form.submit(function(e){
         e.preventDefault();
         e.stopPropagation()

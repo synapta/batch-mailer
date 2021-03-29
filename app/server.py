@@ -21,6 +21,7 @@ templates = Jinja2Templates(directory=os.path.join(base_dir, 'templates'))
 def login(request: Request):
     return templates.TemplateResponse('login.html', context={'request': request})
 
+# Check login
 @app.post('/login')
 def check_login(request: Request,
                 sender: str = Form(...),
@@ -38,10 +39,12 @@ def check_login(request: Request,
 
     return result
 
+
 # Home
 @app.get('/index')
 def home(request: Request):
     return templates.TemplateResponse('index.html', context={'request': request})
+
 
 # Check
 @app.post('/index')
