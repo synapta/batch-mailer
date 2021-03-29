@@ -20,10 +20,10 @@
       <p class="fw-bolder fs-1 text">Caricamento dei file</p>
     </div>
     <div id="main-container" class="container">
-      <form class="ui form" id='validation' novalidate>
+      <form class="form" id='validation' novalidate>
         <div class="upload" id="docx_upload">
           <label style="cursor: pointer;" for="docx_input">
-            <img src="static/img/cloud-upload-icon.png" class="ui middle aligned small image upload-image">
+            <img src="static/img/cloud-upload-icon-docx.png" class="ui middle aligned small image upload-image">
             <div class="dplay-tbl">
               <div class="dplay-tbl-cell">
                 <h5><b>Scegli il template della mail in formato .docx</b></h5>
@@ -31,20 +31,22 @@
               </div>
             </div>
             <input type="file" name="docx_name" id="docx_input" class="form-control" value="" accept=".docx">
-            <div id="docx_feedback" class="invalid-feedback"></div>
+            <div id="docx-invalid-feedback" class="invalid-feedback"></div>
+            <div id="docx-valid-feedback" class="valid-feedback"></div>
           </label>
         </div>
         <div class="upload" id="xlsx_upload">
           <label style="cursor: pointer;" for="xlsx_input">
-            <img src="static/img/cloud-upload-icon.png" class="ui middle aligned small image upload-image">
+            <img src="static/img/cloud-upload-icon-xlsx.png" class="ui middle aligned small image upload-image">
             <div class="dplay-tbl">
               <div class="dplay-tbl-cell">
                 <h5><b>Scegli il file delle variabili in formato .xlsx o .csv</b></h5>
                 <h6 class="mt-10 mb-70">Nessun file caricato</h6>
               </div>
             </div>
-            <input type="file" name="xlsx_name" id="xlsx_input" class="form-control" value="" accept=".csv,.xlsx">
-            <div id='xlsx_feedback' class="invalid-feedback"></div>
+            <input type="file" name="xlsx_name" id="xlsx_input" class="form-control" value="" accept=".xlsx, .csv">
+            <div id="xlsx-invalid-feedback" class="invalid-feedback"></div>
+            <div id="xlsx-valid-feedback" class="valid-feedback"></div>
           </label>
         </div>
         <button class="btn btn-primary" type="submit">Controlla validità</button>
@@ -81,7 +83,6 @@
     </div>
   </div>
 </body>
-
 <script src="static/js/jquery.min.js"></script>
 <script src="static/js/bootstrap.bundle.min.js"></script>
 <script src="static/js/loadingoverlay.min.js"></script>

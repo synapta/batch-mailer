@@ -29,15 +29,19 @@ form {
 
 .upload {
     width: 100%;
-    
-    border: 1px dashed #ddd;
+    /*border: 1px dashed #ddd;*/
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     position: relative;
     text-align: center;
-    background: #f8f8f9;
+    background: #ffffff;
     color: #666;
-    overflow: hidden
+    overflow: hidden;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.upload:hover {
+    background: #E5E5E5;
 }
 
 .upload input {
@@ -48,7 +52,7 @@ form {
     z-index: 10;
     position: absolute;
     top: 0;
-    left: 0
+    left: 0;
 }
 
 .upload-image {
@@ -67,6 +71,10 @@ form {
     display: none;
 }
 
+.index-button {
+    display: none;
+}
+
 .back-button {
     display: none;
 }
@@ -75,6 +83,21 @@ form {
 * Validation
 */
 
+.valid-feedback {
+    font-size: large !important;
+}
+
+.valid-border {
+    border: 2px solid green;
+}
+
 .invalid-feedback {
     font-size: large !important;
 }
+
+.invalid-border {
+    border: 2px solid red;
+}
+
+
+

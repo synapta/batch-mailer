@@ -1,15 +1,15 @@
-$(document).ready(function() {
+$(document).ready(function () {
     fd = new FormData();
     files = {}
     files['docx'] = {}
     files['xlsx'] = {}
-    
-    var docx_container = $('#docx_upload');
-    var xlsx_container = $('#xlsx_upload');
-    
+
+    var docx_upload = $('#docx_upload');
+    var xlsx_upload = $('#xlsx_upload');
+
     // Set drag and drop listeners
-    setDragListeners(docx_container, fd)
-    setDragListeners(xlsx_container, fd)
+    setDragListeners(docx_upload, fd)
+    setDragListeners(xlsx_upload, fd)
 
     // Set upload listeners to input types
     $('#docx_input').on('change', function () {
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
     // Prevent submit behaviour and validate the included data
     var validation_form = $('form#validation')
-    validation_form.submit(function(e){
+    validation_form.submit(function (e) {
         e.preventDefault();
         e.stopPropagation()
         validateData(fd)
@@ -29,17 +29,44 @@ $(document).ready(function() {
 
     // Loading overlay
     $.LoadingOverlaySetup({
-        background       : 'rgba(0, 0, 0, 0.8)',
-        image            : '',
-        imageAnimation   : 'rotate_right',
-        imageColor       : '#ffcc00',
-        text             : 'Sto processando i file e verificando gli allegati',
-        textColor        : '#FFFFFF',
-        textAutoResize   : true,
-        textResizeFactor : 0.5,
-        fontawesome      : 'fa fa-cog fa-spin'      
+        background: 'rgba(0, 0, 0, 0.8)',
+        image: '',
+        imageAnimation: 'rotate_right',
+        imageColor: '#ffcc00',
+        text: 'Sto processando i file e verificando gli allegati',
+        textColor: '#FFFFFF',
+        textAutoResize: true,
+        textResizeFactor: 0.5,
+        fontawesome: 'fa fa-cog fa-spin'
     });
 });
+
+// Reset functions
+function reset_docx() {
+    var input = $('#docx_input');
+    var upload = $('#docx_upload');
+    var valid = $('#docx-valid-feedback');
+    var invalid = $('#docx-invalid-feedback');
+    input.removeClass('is-invalid');
+    input.removeClass('is-valid');
+    upload.removeClass('valid-border');
+    upload.removeClass('invalid-border');
+    valid.empty();
+    invalid.empty();
+}
+
+function reset_xlsx() {
+    var input = $('#xlsx_input');
+    var upload = $('#xlsx_upload');
+    var valid = $('#xlsx-valid-feedback');
+    var invalid = $('#xlsx-invalid-feedback');
+    input.removeClass('is-invalid');
+    input.removeClass('is-valid');
+    upload.removeClass('valid-border');
+    upload.removeClass('invalid-border');
+    valid.empty();
+    invalid.empty();
+}
 
 
 function setDragListeners(container, fd) {
@@ -55,9 +82,9 @@ function setDragListeners(container, fd) {
                 handleDocXUpload(e.originalEvent.dataTransfer.files, fd);
             } else if (e.target.id == 'xlsx_input') {
                 handleXlsXUpload(e.originalEvent.dataTransfer.files, fd)
-            }  
+            }
         },
-        'dragover' : function (e) {
+        'dragover': function (e) {
             e.preventDefault();
         }
     });
@@ -69,6 +96,15 @@ function handleDocXUpload(f, fd) {
     files['docx'] = f
     fd.delete('docx_file')
     fd.append('docx_file', files['docx']);
+    
+    reset_docx();
+    var input = $('#docx_input');
+    var upload = $('#docx_upload');
+    var valid = $('#docx-valid-feedback');
+    input.addClass('is-valid');
+    upload.addClass('valid-border');
+    valid.append('File caricato: ' + f['name']);
+    $('#docx_upload h6').empty();
 }
 
 
@@ -77,6 +113,15 @@ function handleXlsXUpload(f, fd) {
     files['xlsx'] = f
     fd.delete('xlsx_file')
     fd.append('xlsx_file', files['xlsx']);
+
+    reset_xlsx();
+    var input = $('#xlsx_input');
+    var upload = $('#xlsx_upload');
+    var valid = $('#xlsx-valid-feedback');
+    input.addClass('is-valid');
+    upload.addClass('valid-border');
+    valid.append('File caricato: ' + f['name']);
+    $('#xlsx_upload h6').empty();
 }
 
 
@@ -86,7 +131,7 @@ function validateData(fd) {
         console.log('Loaded file:');
         console.log(value)
     }
-    
+
     if (localSideCheck(fd))
         serverSideCheck(fd)
 }
@@ -94,15 +139,16 @@ function validateData(fd) {
 
 function localSideCheck(fd) {
     local_check = false
-    var docx_input = $('input#docx_input')
-    var docx_error = $('div#docx_feedback')
-    docx_input.removeClass('is-invalid')
-    docx_error.empty()
-
-    var xlsx_input = $('input#xlsx_input')
-    var xlsx_error = $('div#xlsx_feedback')
-    xlsx_input.removeClass('is-invalid')
-    xlsx_error.empty()
+    
+    reset_docx();
+    reset_xlsx();
+    
+    var docx_input = $('#docx_input');
+    var docx_upload = $('#docx_upload');
+    var docx_invalid = $('#docx-invalid-feedback');
+    var xlsx_input = $('#xlsx_input');
+    var xlsx_upload = $('#xlsx_upload');
+    var xlsx_invalid = $('#xlsx-invalid-feedback');
 
     // check existence and file type correcteness
     exist_docx = false
@@ -113,49 +159,49 @@ function localSideCheck(fd) {
     var re = /(?:\.([^.]+))?$/;
 
     if (!$.isEmptyObject(files['docx'])) {
-        exist_docx = true
-        console.log(files)
-        console.log(files['docx'].type)
+        exist_docx = true;
         if (files['docx'].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
             re.exec(files['docx'].name)[1] == 'docx') {
-            is_docx = true
+            is_docx = true;
         }
     }
 
     if (!$.isEmptyObject(files['xlsx'])) {
-        exist_xlsx = true
-        console.log(files)
-        console.log(files['xlsx'].type)
+        exist_xlsx = true;
         if (files['xlsx'].type == 'text/csv' || re.exec(files['xlsx'].name)[1] == 'csv') {
-            is_xlsx = true
+            is_xlsx = true;
         } else if (files['xlsx'].type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
             re.exec(files['xlsx'].name)[1] == 'xlsx') {
-            is_xlsx = true
+            is_xlsx = true;
         }
     }
 
     if (!exist_docx) {
-        docx_error.append('Attenzione: sembra che tu non abbia caricato alcun documento!')
-        docx_input.addClass('is-invalid')
+        docx_invalid.append('Attenzione: sembra che tu non abbia caricato alcun documento!');
+        docx_input.addClass('is-invalid');
+        docx_upload.addClass('invalid-border');
     } else {
         if (!is_docx) {
-            docx_error.append('Attenzione: sembra che il file caricato non sia nel formato .docx!')
-            docx_input.addClass('is-invalid')
+            docx_invalid.append('Attenzione: sembra che il file caricato non sia nel formato .docx!');
+            docx_input.addClass('is-invalid');
+            docx_upload.addClass('invalid-border');
         }
     }
 
     if (!exist_xlsx) {
-        xlsx_error.append('Attenzione: sembra che tu non abbia caricato alcun file per le variabili!')
-        xlsx_input.addClass('is-invalid')
+        xlsx_invalid.append('Attenzione: sembra che tu non abbia caricato alcun file per le variabili!');
+        xlsx_input.addClass('is-invalid');
+        xlsx_upload.addClass('invalid-border');
     } else {
         if (!is_xlsx) {
-            xlsx_error.append('Attenzione: sembra che il file caricato non sia nel formato .xlsx o .csv!')
-            xlsx_input.addClass('is-invalid')
+            xlsx_invalid.append('Attenzione: sembra che il file caricato non sia nel formato .xlsx o .csv!');
+            xlsx_input.addClass('is-invalid');
+            xlsx_upload.addClass('invalid-border');
         }
     }
 
     if (exist_docx && exist_xlsx && is_docx && is_xlsx)
-        local_check = true
+        local_check = true;
 
     return local_check
 }
@@ -168,37 +214,45 @@ function serverSideCheck(fd) {
         data: fd,
         processData: false,
         contentType: false,
-        beforeSend: function() {
+        beforeSend: function () {
             $.LoadingOverlay('show');
         },
-        success: function(res) {
+        success: function (res) {
             $.LoadingOverlay('hide');
-            processServerResponse(res);           
+            processServerResponse(res);
         }
     });
 }
 
 
 function processServerResponse(res) {
-    var docx_input = $('input#docx_input')
-    var docx_error = $('div#docx_feedback')
-    var xlsx_input = $('input#xlsx_input')
-    var xlsx_error = $('div#xlsx_feedback')
+    var docx_input = $('#docx_input');
+    var docx_upload = $('#docx_upload');
+    var docx_invalid = $('#docx-invalid-feedback');
+    var xlsx_input = $('#xlsx_input');
+    var xlsx_upload = $('#xlsx_upload');
+    var xlsx_invalid = $('#xlsx-invalid-feedback');
+
     if (res == 'OK') {
-        $('.preview-button').click()
+        $('.preview-button').click();
     }
 
     if (res['field'] == 'xlsx') {
-        xlsx_error.append(res['text']);
+        xlsx_invalid.append(res['text']);
         xlsx_input.addClass('is-invalid');
+        xlsx_upload.addClass('invalid-border');
+
         return
     }
 
     if (res['field'] == 'both') {
-        docx_error.append(res['text_docx']);
+        docx_invalid.append(res['text_docx']);
         docx_input.addClass('is-invalid');
-        xlsx_error.append(res['text_xlsx']);
+        docx_upload.addClass('invalid-border');
+        xlsx_invalid.append(res['text_xlsx']);
         xlsx_input.addClass('is-invalid');
+        xlsx_upload.addClass('invalid-border');
+
         return
     }
 }
