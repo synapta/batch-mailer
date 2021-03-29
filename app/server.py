@@ -89,9 +89,17 @@ def prepare_preview(request: Request):
 @app.get('/send')
 async def massive_send(request: Request):
     msg, mails_sent = await send.send_mails(data.mails)
+    mails_ok = 0
+
+    for i in mails_sent:
+        if i['response'] == 'OK':
+            mails_ok+=1
+
     context = {
         'request': request,
-        'mails': mails_sent
+        'mails': mails_sent,
+        'num_true': mails_ok,
+        'num_all' : len(mails_sent)
     }
     
     return templates.TemplateResponse('results.html', context=context)
