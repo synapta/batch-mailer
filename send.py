@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 import socket
 import os
 
+import data
 import utils
 
 '''
@@ -16,10 +17,10 @@ async def send_mails(mails_dict):
     print('\nSending emails')
     
     # Request parameters
-    sender = 'giuseppe@synapta.it'
-    password = ''
-    port = 465  # 465 For SSL
-    smtp_server = 'smtp.gmail.com'
+    sender = data.mail_login['sender']
+    password = data.mail_login['password']
+    port = data.mail_login['port'] # 465 For SSL
+    smtp_server = data.mail_login['server']
     msg = ''
     mails_sent = []
 

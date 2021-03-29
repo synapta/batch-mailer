@@ -163,7 +163,7 @@ function localSideCheck(fd) {
 
 function serverSideCheck(fd) {
     $.ajax({
-        url: '/',
+        url: '/index',
         type: 'POST',
         data: fd,
         processData: false,
