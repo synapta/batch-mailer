@@ -26,7 +26,7 @@ def launch_cef():
     check_versions()
     sys.excepthook = cef.ExceptHook  # To shutdown all CEF processes on error
     cef.Initialize(settings=cef_settings())
-    browser = cef.CreateBrowserSync(url="http://localhost:8000/",
+    browser = cef.CreateBrowserSync(url="http://localhost:8000/login",
                           window_title="Wikimedia Italia - Invio PEC")
     
     if platform.system() == "Windows":
