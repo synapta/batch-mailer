@@ -4,9 +4,9 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\Giuseppe\\Desktop\\batch-mailer'],
+             pathex=['C:\\Users\\Giuseppe\\Scrivania\\batch-mailer'],
              binaries=[],
-             datas=[('C:\\Users\\Giuseppe\\Desktop\\batch-mailer\\app', '.\\app')],
+             datas=[('C:\\Users\\Giuseppe\\Scrivania\\batch-mailer\\app', '.\\app')],
              hiddenimports=['uvicorn.lifespan.off',
                             'uvicorn.lifespan.on','uvicorn.lifespan',
                             'uvicorn.protocols.websockets.auto','uvicorn.protocols.websockets.wsproto_impl',

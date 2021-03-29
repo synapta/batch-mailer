@@ -36,7 +36,7 @@ def launch_cef():
         SWP_NOMOVE = 0x0002
         # noinspection PyUnresolvedReferences
         ctypes.windll.user32.SetWindowPos(window_handle, insert_after_handle,
-                                          0, 0, 900, 640, SWP_NOMOVE)
+                                          0, 0, 1600, 900, SWP_NOMOVE)
     cef.MessageLoop()
     del browser
     cef.Shutdown()
