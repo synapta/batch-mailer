@@ -6,6 +6,19 @@ $(document).ready(function() {
         e.stopPropagation();
         validateLogin();
     });
+
+    // Loading overlay
+    $.LoadingOverlaySetup({
+        background       : 'rgba(0, 0, 0, 0.8)',
+        image            : '',
+        imageAnimation   : 'rotate_right',
+        imageColor       : '#ffcc00',
+        text             : 'Connessione al server di posta',
+        textColor        : '#FFFFFF',
+        textAutoResize   : true,
+        textResizeFactor : 0.5,
+        fontawesome      : 'fa fa-cog fa-spin'      
+    });
 });
 
 function validateLogin() {
@@ -82,3 +95,35 @@ function validateLogin() {
     }
 }
 
+function validateLoginServer(){
+    var form_data = $('.form').serialize();
+    var general = $('#general');
+    var general_invalid = $('#general_feedback');
+    general.removeClass('is-invalid');
+    general_invalid.empty();
+    
+    $.ajax({
+        type:'POST',
+        url:'/login',
+        data: form_data,
+        encode: true,
+        beforeSend: function() {
+            $.LoadingOverlay('show');
+        }
+    }).done(function(data){
+        $.LoadingOverlay('hide');
+        console.log(data)
+        if (data == 'OK') {
+            $('.index-button').click()
+        } else {
+            console.log('general')
+            console.log(general)
+            general.addClass('is-invalid');
+            general_invalid.append(data)
+        }
+    }).fail(function(data){
+        $.LoadingOverlay('hide');
+        general.addClass('is-invalid');
+        general_invalid.append('Attenzione: impossibile collegarsi al server locale')
+    });
+}

@@ -5,4 +5,5 @@ easily manage frontend response
 
 docx = {}
 xlsx = {}
+mail_login = {}
 mails = []

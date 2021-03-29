@@ -23,34 +23,38 @@
       <form class="ui form" id="login" novalidate>
         <div class="form-group">
           <label for="mailAddress">Indirizzo email</label>
-          <input type="email" class="form-control" id="mailAddress" aria-describedby="emailHelp" placeholder="Inserisci email">
+          <input type="email" class="form-control" id="mailAddress" name='sender' aria-describedby="emailHelp" placeholder="Inserisci email">
           <small id="emailHelp" class="form-text text-muted">Qui dovrai inserire l'indirizzo email del mittente</small>
           <div id="email_feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group">
           <label for="mailPassword">Password</label>
-          <input type="password" class="form-control" id="mailPassword" aria-describedby="passwordHelp" placeholder="Inserisci password">
+          <input type="password" class="form-control" id="mailPassword" name='password' aria-describedby="passwordHelp" placeholder="Inserisci password">
           <small id="emailHelp" class="form-text text-muted">Qui dovrai inserire la password di accesso al servizio di posta dell'indirizzo del mittente</small>
           <div id="password_feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group">
           <label for="mailServer">Indirizzo del server</label>
-          <input type="text" class="form-control" id="mailServer" aria-describedby="serverHelp" placeholder="Inserisci indirizzo del server">
+          <input type="text" class="form-control" id="mailServer" name='server' aria-describedby="serverHelp" placeholder="Inserisci indirizzo del server">
           <small id="emailHelp" class="form-text text-muted">Qui dovrai inserire l'indirizzo del server mail (ad esempio "smtp.gmail.com")</small>
           <div id="server_feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group">
           <label for="mailPort">Porta del server</label>
-          <input type="number" class="form-control" id="mailPort" aria-describedby="PortHelp" value=465>
+          <input type="number" class="form-control" id="mailPort" name='port' aria-describedby="PortHelp" value=465>
           <small id="emailHelp" class="form-text text-muted">Qui dovrai inserire il numero di porta del server (default 465)</small>
           <div id="port_feedback" class="invalid-feedback"></div>
+        </div>
+        <div class="form-group">
+          <input type="hidden" id='general'>
+          <div id="general_feedback" class="invalid-feedback"></div>
         </div>
         <button class="btn btn-primary" type="submit">Effettua l'accesso</button>
       </form>
     </div>
     <form id="index">
       <!-- Hidden button to perform the request -->
-      <button class="index-button" type="submit" formaction="/"></button>
+      <button class="index-button" type="submit" formaction="/index"></button>
     </form>
     <div class="ui inverted vertical footer segment">
       <div class="ui container">

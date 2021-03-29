@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, Request, UploadFile
+from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
@@ -20,13 +20,30 @@ templates = Jinja2Templates(directory=os.path.join(base_dir, 'templates'))
 def login(request: Request):
     return templates.TemplateResponse('login.html', context={'request': request})
 
+@app.post('/login')
+def check_login(request: Request,
+                sender: str = Form(...),
+                password: str = Form(...),
+                server: str = Form(...),
+                port: int = Form(...)):
+    
+    result = check.valid_login_connection(sender, password, server, port)
+
+    if result == 'OK':
+        data.mail_login['sender'] = sender
+        data.mail_login['password'] = password
+        data.mail_login['server'] = server
+        data.mail_login['port'] = port
+
+    return result
+
 # Home
-@app.get('/')
+@app.get('/index')
 def home(request: Request):
     return templates.TemplateResponse('index.html', context={'request': request})
 
 # Check
-@app.post('/')
+@app.post('/index')
 async def load_files(request: Request,
                      docx_file: UploadFile = File(...),
                      xlsx_file: UploadFile = File(...)):

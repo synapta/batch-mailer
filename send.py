@@ -12,8 +12,6 @@ import utils
 Prepare and send all mails
 '''
 
-# TODO: make test with next cloud
-
 async def send_mails(mails_dict):
     print('\nSending emails')
     
