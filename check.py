@@ -124,13 +124,14 @@ async def valid_attachments(csv):
 
 def valid_login_connection(sender, password, server, port):
     msg = 'OK'
+    smtp_server = None
 
     # Create a secure SSL context
     context = ssl.create_default_context()
 
     # Check server connection
     try:
-        server = smtplib.SMTP_SSL(server, port, context=context)
+        smtp_server = smtplib.SMTP_SSL(server, port, context=context)
         connected = True
     except socket.gaierror as socket_err:
         msg = 'Connessione al server - Controlla l\'indirizzo: %s' % server
@@ -141,7 +142,7 @@ def valid_login_connection(sender, password, server, port):
     
     # Check server login
     try:
-        server.login(sender, password)
+        smtp_server.login(sender, password)
         flg = True
     except smtplib.SMTPConnectError as conn_err:
         msg = 'Login - Errore di connessione con il server'
@@ -161,4 +162,4 @@ def valid_login_connection(sender, password, server, port):
     except Exception as err:
         msg = 'Login - Errore generico'
     
-    return msg
+    return msg, smtp_server

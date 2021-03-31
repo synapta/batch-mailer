@@ -29,14 +29,14 @@ def check_login(request: Request,
                 server: str = Form(...),
                 port: int = Form(...)):
     
-    result = check.valid_login_connection(sender, password, server, port)
+    result, _ = check.valid_login_connection(sender, password, server, port)
 
     if result == 'OK':
         data.mail_login['sender'] = sender
         data.mail_login['password'] = password
         data.mail_login['server'] = server
         data.mail_login['port'] = port
-
+    
     return result
 
 

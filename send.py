@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 import socket
 import os
 
+import check
 import data
 import utils
 
@@ -20,42 +21,23 @@ async def send_mails(mails_dict):
     sender = data.mail_login['sender']
     password = data.mail_login['password']
     port = data.mail_login['port'] # 465 For SSL
-    smtp_server = data.mail_login['server']
+    server = data.mail_login['server']
     msg = ''
     mails_sent = []
 
-    # Create a secure SSL context
-    context = ssl.create_default_context()
-
-    # Connect to the server
-    connected = False
-    try:
-        server = smtplib.SMTP_SSL(smtp_server, port, context=context)
-        connected = True
-    except socket.gaierror as socket_err:
-        msg = 'Connessione al server - Controlla l\'indirizzo: %s' % smtp_server
-        print(socket_err)
-    except Exception as err:
-        msg = 'Connessione al server - Errore generico'
-        print(err)
-    
-    # Login to the server
-    logged = False
-    if connected:
-        logged, login_err = server_login(server, sender, password)
-        msg = login_err
+    logged, smtp_server = check.valid_login_connection(sender, password, server, port)
     
     # Massive mail sending
-    if logged:
+    if logged == 'OK':
         mails = await prepare_mails(sender, mails_dict)
         for m in mails: 
-            res = send_single_mail(server, sender, m['recipient'], m['message'])
+            res = send_single_mail(smtp_server, sender, m['recipient'], m['message'])
             mr = {'recipient': m['recipient'],
                   'response': res}
             mails_sent.append(mr)
         
         # Quit
-        server.quit()
+        smtp_server.quit()
 
         # Remove all downloaded attachments
         for md in mails_dict:
@@ -69,35 +51,6 @@ async def send_mails(mails_dict):
 
     return msg, mails_sent
 
-
-def server_login(server, sender, password):
-    flg = False
-    msg = ''
-    try:
-        server.login(sender, password)
-        flg = True
-    except smtplib.SMTPConnectError as conn_err:
-        msg = 'Login - Errore di connessione con il server'
-        print(conn_err)
-    except smtplib.SMTPServerDisconnected as discnt_err:
-        msg = 'Login - Il server si è disconnesso inaspettatamente'
-        print(discnt_err)
-    except smtplib.SMTPAuthenticationError as auth_err:
-        msg = 'Login - Errore di autenticazione: controlla nome utente, password o le impostazioni di sicurezza del servizio'
-        print(auth_err)
-    except smtplib.SMTPResponseException as smtp_res:
-        msg = 'Login - Errore di risposta di SMTP'
-        print(smtp_res)
-    except smtplib.SMTPException as smtp_err:
-        msg = 'Login - Errore generico di SMTP'
-        print(smtp_err)
-    except Exception as err:
-        msg = 'Login - Errore generico'
-        error_msg+=msg
-        print(err)
-
-    return flg, msg
-        
 
 async def prepare_mails(sender, mails_dict):
     mails = []
