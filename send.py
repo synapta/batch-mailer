@@ -107,7 +107,6 @@ async def prepare_mails(sender, mails_dict):
         message['From'] = sender
         message['To'] = md['recipient']
         message['Subject'] = md['subject']
-        message['Bcc'] = sender  # Recommended for mass emails
         
         # Add body to email
         body = md['body']
