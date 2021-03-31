@@ -17,10 +17,10 @@
 <body>
   <div class="pusher">
     <div class="ui inverted vertical masthead center aligned segment wikimedia">
-      <p class="fw-bolder fs-1 text">Esito dell'invio</p>
+      <p class="fw-bolder fs-1 text">Esito dell"invio</p>
     </div>
-    <div id="main-container" class="container">
-      <div class='row'>
+    <div id="main" class="container">
+      <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
           <p class="fs-4 text result-desc">Sono state inviate correttamente <span class="badge bg-secondary">{{ num_true
@@ -33,25 +33,26 @@
       <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
-          <ul id='result-list' class="list-group">
+          <ul id="result-list" class="list-group">
             {%- for item in mails -%}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{ item['recipient'] }}
-              <span class="badge bg-primary rounded-pill">{{ item['response'] }}</span>
+              {{ item["recipient"] }}
+              <span class="badge bg-primary rounded-pill">{{ item["response"] }}</span>
             </li>
             {%- endfor -%}
           </ul>
         </div>
         <div class="col-sm-3"></div>
       </div>
-      <div class='row'>
+      <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
           <form id="control">
-            <button id='back-index-button' class="btn btn-primary">Invia nuove mail</button>
+            <button id="back-index-button" class="btn btn-primary">Invia nuove mail</button>
+            <button id='print-button' class="btn btn-primary" onclick="print()">Stampa il resoconto</button>
           </form>
           <form id="back">
-            <button class="btn btn-primary back-button" type="submit" formaction='/index'></button>
+            <button class="btn btn-primary back-button" type="submit" formaction="/index"></button>
           </form>
         </div>
         <div class="col-sm-2"></div>
