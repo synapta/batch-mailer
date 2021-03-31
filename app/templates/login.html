@@ -23,26 +23,32 @@
       <form class="form" id="login" novalidate>
         <div class="form-group">
           <label for="mailAddress">Indirizzo email</label>
-          <input type="email" class="form-control" id="mailAddress" name='sender' aria-describedby="emailHelp" placeholder="Inserisci email">
+          <input type="email" class="form-control" id="mailAddress" name='sender' aria-describedby="emailHelp"
+            placeholder="Inserisci email">
           <small id="emailHelp" class="form-text text-muted">Inserire l'indirizzo email del mittente</small>
           <div id="email_feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group">
           <label for="mailPassword">Password</label>
-          <input type="password" class="form-control" id="mailPassword" name='password' aria-describedby="passwordHelp" placeholder="Inserisci password">
-          <small id="emailHelp" class="form-text text-muted">Inserire la password di accesso al servizio di posta dell'indirizzo del mittente</small>
+          <input type="password" class="form-control" id="mailPassword" name='password' aria-describedby="passwordHelp"
+            placeholder="Inserisci password">
+          <small id="emailHelp" class="form-text text-muted">Inserire la password di accesso al servizio di posta
+            dell'indirizzo del mittente</small>
           <div id="password_feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group">
           <label for="mailServer">Indirizzo del server</label>
-          <input type="text" class="form-control" id="mailServer" name='server' aria-describedby="serverHelp" placeholder="Inserisci indirizzo del server">
-          <small id="emailHelp" class="form-text text-muted">Inserire l'indirizzo del server mail (ad esempio "smtp.gmail.com")</small>
+          <input type="text" class="form-control" id="mailServer" name='server' aria-describedby="serverHelp"
+            placeholder="Inserisci indirizzo del server">
+          <small id="emailHelp" class="form-text text-muted">Inserire l'indirizzo del server mail (ad esempio
+            "smtp.gmail.com")</small>
           <div id="server_feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group">
           <label for="mailPort">Porta del server</label>
           <input type="number" class="form-control" id="mailPort" name='port' aria-describedby="PortHelp" value=465>
-          <small id="emailHelp" class="form-text text-muted">Inserire il numero di porta del server (default 465)</small>
+          <small id="emailHelp" class="form-text text-muted">Inserire il numero di porta del server (default
+            465)</small>
           <div id="port_feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group">
@@ -59,24 +65,11 @@
     <div class="ui inverted vertical footer segment">
       <div class="ui container">
         <div class="ui stackable inverted divided equal height stackable grid">
-          <div class="five wide column">
-            <h4 class="ui inverted header">Per saperne di più</h4>
-            <div class="ui inverted link list">
-              <a href="https://www.wikimedia.it/" class="item">Wikimedia Italia</a>
-              <a href="https://wikilovesmonuments.wikimedia.it/" class="item">WikiLovesMonuments in Italia</a>
-              <a href="https://www.wikilovesmonuments.org/" class="item">WikiLovesMonuments nel mondo</a>
-              <a href="https://it.wikipedia.org/wiki/Libert%C3%A0_di_panorama" class="item">Libertà di panorama</a>
-            </div>
-          </div>
           <div class="ten wide column">
             <h4 class="ui inverted header">Realizzato da</h4>
             <p>
-              <a href="https://www.wikimedia.it/">
-                <img class="ui middle aligned small image" src="static/img/Wikimedia_Italia-logo_horizontal.png">
-              </a>
-              <a href="https://synapta.it/">
-                <img class="ui middle aligned small image" src="static/img/synapta.png">
-              </a>
+              <img class="ui middle aligned small image" src="static/img/Wikimedia_Italia-logo_horizontal.png">
+              <img class="ui middle aligned small image" src="static/img/synapta.png">
             </p>
           </div>
         </div>
