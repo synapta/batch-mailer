@@ -19,10 +19,10 @@
     <div class="ui inverted vertical masthead center aligned segment wikimedia">
       <p class="fw-bolder fs-1 text">Anteprima della mail</p>
     </div>
-    <div id="main-container" class="container">
+    <div class="container">
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="col-sm-12">
+        <div class="col-sm-11">
           <p class="fw-bolder fs-1 text">{{ subject }} </p>
           <p class="fs-2 text">{{ recipient }} </p>
           <div style="white-space: pre-line">
@@ -35,8 +35,7 @@
             {%- endfor -%}
           </ul>
           <form id="check">
-            <button id="send-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#send-modal">Invia
-              le mail</button>
+            <button id="send-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#send-modal">Invia le mail</button>
             <button id="index-button" class="btn btn-primary">Modifica i file caricati</button>
           </form>
           <form id="send">
@@ -47,18 +46,16 @@
       </div>
     </div> <!-- End of container -->
     <hr>
-    <div id="bottom-container" class="container">
+    <div class="container">
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="col-sm-12">
+        <div class="col-sm-11">
           <p class="fw-bolder fs-1 text"> Dettagli invio massivo: </p>
           <p class="fs-4 text">Il template utilizzato per il contenuto della mail è <span class="badge bg-secondary">{{
               docx_template }}</span>. La mail verrà inviata a <span class="badge bg-secondary">{{ num_recipients
               }}</span>
             indirizzi di posta:
           </p>
-          <p class="fs-4 text">La mail verrà inviata a <span class="badge bg-secondary">{{ num_recipients }}</span>
-            indirizzi di posta:</p>
           <ul>
             {%- for item in recipients -%}
             <li><span class="glyphicon glyphicon-envelope"></span> {{ item }}</li>

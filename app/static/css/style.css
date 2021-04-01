@@ -1,10 +1,54 @@
+/*
+* Main structure
+*/
+
+:root {
+    --header-h: 80px;
+    --footer-h: 255px;
+}
+
+div.masthead {
+    height: var(--header-h);
+}
+
+#main-container {
+    min-height: calc(100vh - var(--header-h) - var(--footer-h));
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#main-form {
+    /* set main container of forms height as all available space minus footer/header height and form margins */
+    min-height: calc(100vh - var(--header-h) - var(--footer-h) - 20px);
+    width: 100%;
+    /* center content vertically and horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bottom-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form.form {
+    width: 100%;
+}
+
+div.footer {
+    height: var(--footer-h);
+}
+
 /* 
 * Wikimedia template changes
 */
 
 .masthead.segment {
     min-height: 0px !important
-    
 }
 
 .wikimedia {
@@ -112,6 +156,3 @@ p.result-desc {
 .invalid-border {
     border: 2px solid red;
 }
-
-
-
