@@ -73,7 +73,6 @@ form {
 
 .upload {
     width: 100%;
-    /*border: 1px dashed #ddd;*/
     border-radius: 5px;
     margin-bottom: 25px;
     position: relative;
@@ -101,6 +100,11 @@ form {
 
 .upload-image {
     margin: 10px;
+}
+
+.dragging {
+    border: 1px dashed #ddd;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 0px 0px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* 

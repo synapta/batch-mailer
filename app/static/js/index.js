@@ -73,8 +73,10 @@ function setDragListeners(container, fd) {
     container.on({
         'dragenter': function (e) {
             e.preventDefault();
+            container.addClass('dragging');
         },
         'dragleave': function (e) {
+            container.removeClass('dragging');
         },
         'drop': function (e) {
             e.preventDefault()
@@ -83,6 +85,7 @@ function setDragListeners(container, fd) {
             } else if (e.target.id == 'xlsx_input') {
                 handleXlsXUpload(e.originalEvent.dataTransfer.files, fd)
             }
+            container.removeClass('dragging');
         },
         'dragover': function (e) {
             e.preventDefault();
