@@ -43,7 +43,7 @@ Questa operazione richiede di inserire 4 informazioni differenti:
 Una volta inseriti i valori nei campi del form, è possibile cliccare sul bottone `Effettua l'accesso`.
 
 ## Caricamento del template e della lista
-Se l'operazione precendente è andata a buon fine, sarà possibile effettuare il caricamento del template e della lista. Per il caricamento è possible cliccare sui pannelli e selezionare il file desiderato, oppure trascire direttamente il file sul pannello.
+Se l'operazione precedente è andata a buon fine, sarà possibile effettuare il caricamento del template e della lista. Per il caricamento è possibile cliccare sui pannelli e selezionare il file desiderato, oppure trascinare direttamente il file sul pannello.
 
 Il pannello in alto consente di caricare il template della email, mentre il pannello in basso consente di caricare la lista di dati. Una volta effettuato il caricamento, cliccare su `Controlla validità`.
 
@@ -57,7 +57,7 @@ Batch-mailer effettuerà una serie di controlli sui file inseriti, tra cui ad es
 ![loaded](https://github.com/synapta/batch-mailer/blob/master/docs/loaded.png)
 
 ## Anteprima dei messaggi di posta
-Se loperazione precedente è andata a buon fine, l'utente accederà a una schermata con 2 tipologie di informazioni:
+Se l'operazione precedente è andata a buon fine, l'utente accederà a una schermata con 2 tipologie di informazioni:
 * Un'anteprima della email da inviare. In particolare, l'utente visualizzerà la mail contenente i dati della prima riga della lista.
 * Una lista dei destinatari (con il dettaglio complessivo del numero di email che verranno inviate).
 
@@ -72,6 +72,6 @@ Al termine dell'invio massivo, l'utente accederà alle informazioni relative all
 
 ![results](https://github.com/synapta/batch-mailer/blob/master/docs/results.png)
 
-*ATTENZIONE: attualmente il protocollo universale di funzionamento delle email non consente di identiicare errori dell'invio dovuto a indirizzi mail non esistenti. Pertanto, batch-mailer indicherà esito positivo anche in questo caso. Tuttavia, per l'utente sarà possibile verificare questo tipo di errore direttamente sulla propria casella di posta*.
+*ATTENZIONE: attualmente il protocollo universale di funzionamento delle email non consente di identificare errori dell'invio dovuto a indirizzi mail non esistenti. Pertanto, batch-mailer indicherà esito positivo anche in questo caso. Tuttavia, per l'utente sarà possibile verificare questo tipo di errore direttamente sulla propria casella di posta*.
 
 L'utente avrà la possibilità di stampare l'esito dell'invio, cliccando su `Stampa il resoconto`, oppure effettuando un nuovo invio cliccando su `Invia nuove mail`.
