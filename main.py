@@ -64,4 +64,4 @@ if __name__ == '__main__':
     t2 = Thread(target=launch_cef)
     t1.start()
     time.sleep(3)
-    #t2.start()
+    t2.start()
