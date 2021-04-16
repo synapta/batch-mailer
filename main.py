@@ -10,6 +10,7 @@ import time
 
 import app.server as server
 
+
 def cef_settings():
     if hasattr(sys, '_MEIPASS'):
         # settings when packaged
@@ -21,6 +22,7 @@ def cef_settings():
         settings = {}
     
     return settings
+
 
 def launch_cef():
     check_versions()
@@ -62,4 +64,4 @@ if __name__ == '__main__':
     t2 = Thread(target=launch_cef)
     t1.start()
     time.sleep(3)
-    t2.start()
+    #t2.start()

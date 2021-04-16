@@ -43,19 +43,19 @@ def read_xlsx(xlsx_byte):
         for i in range(len(l)):
             if i == len(l) - 1:
                 if l[i].value == None:
-                    csv_string+=''
+                    csv_string +=''
                 else:
-                    csv_string+=str(l[i].value)
+                    csv_string+= '"' + str(l[i].value) + '"'
             else:
                 if l[i].value == None:
-                    csv_string+=','
+                    csv_string +=','
                 else:
-                    csv_string+=str(l[i].value) + ','
+                    csv_string += '"' + str(l[i].value) + '",'
                 
         csv_string+='\n'
     
     csv_string = StringIO(csv_string)
-    csv_reader = csv.DictReader(csv_string)
+    csv_reader = csv.DictReader(csv_string, quotechar='"')
 
     return csv_reader
 
