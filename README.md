@@ -4,6 +4,8 @@ This tool allows users to send multiple mails, combining a template file (.docx)
 * a .docx file. which includes variables in the form of `${variable}`;
 * a .xlsx (or .csv) file, which includes fields corresponding to the .docx variables.
 
+*WARNING: you have to remove all the double quotes in the xlsx file*. 
+
 Moreover, the .xlsx files requires two mandatory fields:
 * `oggetto`: it includes the string for the email subject;
 * `pec`: it includes a vaild email address;
